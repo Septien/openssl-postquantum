@@ -97,3 +97,6 @@ This version of the openssl library will include post-quantum ciphersuites. The
 schemes to be use are those defined by the NIST standard competition [1]. The
 first one to be implemented is the "NewHope" cryptosystem. Others may come in 
 future.
+
+[1] https://csrc.nist.gov/Projects/Post-Quantum-Cryptography
+[2] https://newhopecrypto.org/
