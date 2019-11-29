@@ -1,0 +1,3 @@
+LIBS=./
+SOURCE=[../../libcrypto]=\
+        newhope.c
