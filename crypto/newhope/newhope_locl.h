@@ -1,17 +1,32 @@
 #ifndef NEWHOPE_CS
 #define NEWHOPE_CS
 
-#include "api.h"
+#include <openssl/newhope.h>
+#include "newhope_kex.h"
 
-extern void KeyGen(unsigned char *pk,
-                    unsigned char *sk);
+#ifdef _cpluplus
+extern "C" { 
+#endif
 
-extern void encrypt(unsigned char *ct,
-                    unsigned char *m,
-                    unsigned char *pk);
+/* Public key data structure */
+struct newhope_pub_st {
+    unsigned char pu[CRYPTO_PUBLICKEYBYTES];
+};
 
-extern void decrypt(unsigned char *m,
-                    unsigned char *ct,
-                    unsigned char *sk);
+/* Key pair data structure (private and public) */
+struct newhope_pair_st {
+    NEWHOPE_PUB *pub;
+    unsigned char *pk;
+    int keys_set;
+};
+
+/* Context structure */
+struct newhope_ctx_st {
+    int nid;
+};
+
+#ifdef _cplusplus
+}
+#endif
 
 #endif // NEWHOPE_CS
