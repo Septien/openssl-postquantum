@@ -75,6 +75,7 @@ static ERR_STRING_DATA ERR_str_libraries[] = {
     {ERR_PACK(ERR_LIB_SM2, 0, 0), "SM2 routines"},
     {ERR_PACK(ERR_LIB_ESS, 0, 0), "ESS routines"},
     {ERR_PACK(ERR_LIB_PROV, 0, 0), "Provider routines"},
+    {ERR_PACK(ERR_LIB_NEWHOPE, 0, 0), "NewHope routines"},
     {0, NULL},
 };
 

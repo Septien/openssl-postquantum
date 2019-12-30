@@ -39,8 +39,4 @@ void NEWHOPE_CTX_free(NEWHOPE_CTX *ctx);
 /* Generate key pair */
 int NEWHOPE_PAIR_generate_key(NEWHOPE_PAIR *keypair);
 
-#ifdef _cplusplus
-}
-#endif
-
-#endif // HEADER_NEWHOPE_H
+/* BEGIN ERROR CODES */
