@@ -176,7 +176,6 @@ our %config = (
         "OPENSSL_NO_KTLS",
         "OPENSSL_NO_MD2",
         "OPENSSL_NO_MSAN",
-        "OPENSSL_NO_NEWHOPE",
         "OPENSSL_NO_RC5",
         "OPENSSL_NO_SCTP",
         "OPENSSL_NO_SSL_TRACE",
@@ -198,7 +197,7 @@ our %config = (
         "OPENSSL_SYS_MACOSX"
     ],
     "openssldir" => "",
-    "options" => " no-asan no-buildtest-c++ no-crypto-mdebug no-crypto-mdebug-backtrace no-devcryptoeng no-ec_nistp_64_gcc_128 no-egd no-external-tests no-fuzz-afl no-fuzz-libfuzzer no-ktls no-md2 no-msan no-newhope no-rc5 no-sctp no-ssl-trace no-ssl3 no-ssl3-method no-trace no-ubsan no-unit-test no-uplink no-weak-ssl-ciphers no-zlib no-zlib-dynamic",
+    "options" => " no-asan no-buildtest-c++ no-crypto-mdebug no-crypto-mdebug-backtrace no-devcryptoeng no-ec_nistp_64_gcc_128 no-egd no-external-tests no-fuzz-afl no-fuzz-libfuzzer no-ktls no-md2 no-msan no-rc5 no-sctp no-ssl-trace no-ssl3 no-ssl3-method no-trace no-ubsan no-unit-test no-uplink no-weak-ssl-ciphers no-zlib no-zlib-dynamic",
     "patch" => "0",
     "perl_archname" => "darwin-thread-multi-2level",
     "perl_cmd" => "/usr/bin/perl",
@@ -359,7 +358,6 @@ our @disablables = (
     "module",
     "msan",
     "multiblock",
-    "newhope",
     "nextprotoneg",
     "pinshared",
     "ocb",
@@ -437,7 +435,6 @@ our %disabled = (
     "ktls" => "default",
     "md2" => "default",
     "msan" => "default",
-    "newhope" => "default",
     "rc5" => "default",
     "sctp" => "default",
     "ssl-trace" => "default",
@@ -736,6 +733,9 @@ our %unified_info = (
                 "noinst" => "1"
             },
             "test/buildtest_c_modes" => {
+                "noinst" => "1"
+            },
+            "test/buildtest_c_newhope" => {
                 "noinst" => "1"
             },
             "test/buildtest_c_obj_mac" => {
@@ -1817,6 +1817,10 @@ our %unified_info = (
             "libssl"
         ],
         "test/buildtest_c_modes" => [
+            "libcrypto",
+            "libssl"
+        ],
+        "test/buildtest_c_newhope" => [
             "libcrypto",
             "libssl"
         ],
@@ -5916,6 +5920,10 @@ our %unified_info = (
             "test/generate_buildtest.pl",
             "modes"
         ],
+        "test/buildtest_newhope.c" => [
+            "test/generate_buildtest.pl",
+            "newhope"
+        ],
         "test/buildtest_obj_mac.c" => [
             "test/generate_buildtest.pl",
             "obj_mac"
@@ -6867,6 +6875,9 @@ our %unified_info = (
         "test/buildtest_c_modes" => [
             "include"
         ],
+        "test/buildtest_c_newhope" => [
+            "include"
+        ],
         "test/buildtest_c_obj_mac" => [
             "include"
         ],
@@ -7678,6 +7689,7 @@ our %unified_info = (
         "test/buildtest_c_md5",
         "test/buildtest_c_mdc2",
         "test/buildtest_c_modes",
+        "test/buildtest_c_newhope",
         "test/buildtest_c_obj_mac",
         "test/buildtest_c_objects",
         "test/buildtest_c_ocsp",
@@ -15758,6 +15770,12 @@ our %unified_info = (
         "test/buildtest_c_modes-bin-buildtest_modes.o" => [
             "test/buildtest_modes.c"
         ],
+        "test/buildtest_c_newhope" => [
+            "test/buildtest_c_newhope-bin-buildtest_newhope.o"
+        ],
+        "test/buildtest_c_newhope-bin-buildtest_newhope.o" => [
+            "test/buildtest_newhope.c"
+        ],
         "test/buildtest_c_obj_mac" => [
             "test/buildtest_c_obj_mac-bin-buildtest_obj_mac.o"
         ],
@@ -16921,9 +16939,6 @@ my %disabled_info = (
     },
     "msan" => {
         "macro" => "OPENSSL_NO_MSAN"
-    },
-    "newhope" => {
-        "macro" => "OPENSSL_NO_NEWHOPE"
     },
     "rc5" => {
         "macro" => "OPENSSL_NO_RC5",
