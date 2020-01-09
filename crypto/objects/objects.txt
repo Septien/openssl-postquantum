@@ -1703,3 +1703,7 @@ dstu4145le 2 9 : uacurve9 : DSTU curve 9
                             : AES-128-SIV  : aes-128-siv
                             : AES-192-SIV  : aes-192-siv
                             : AES-256-SIV  : aes-256-siv
+
+# Object IDs for NewHope
+!Alias newhope 1 
+newhope 1					: newhope512cpa : postquantumNewHope512
