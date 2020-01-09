@@ -4878,3 +4878,12 @@ EVP_PKEY_meth_set_digestsign            ?	3_0_0	EXIST::FUNCTION:
 EVP_PKEY_meth_set_digestverify          ?	3_0_0	EXIST::FUNCTION:
 EVP_PKEY_meth_get_digestsign            ?	3_0_0	EXIST::FUNCTION:
 EVP_PKEY_meth_get_digestverify          ?	3_0_0	EXIST::FUNCTION:
+NEWHOPE_PUB_new                         ?	3_0_0	EXIST::FUNCTION:
+NEWHOPE_PUB_dup                         ?	3_0_0	EXIST::FUNCTION:
+NEWHOPE_PUB_free                        ?	3_0_0	EXIST::FUNCTION:
+NEWHOPE_PAIR_new                        ?	3_0_0	EXIST::FUNCTION:
+NEWHOPE_PAIR_dup                        ?	3_0_0	EXIST::FUNCTION:
+NEWHOPE_PAIR_free                       ?	3_0_0	EXIST::FUNCTION:
+NEWHOPE_CTX_new                         ?	3_0_0	EXIST::FUNCTION:
+NEWHOPE_CTX_free                        ?	3_0_0	EXIST::FUNCTION:
+NEWHOPE_PAIR_generate_key               ?	3_0_0	EXIST::FUNCTION:
