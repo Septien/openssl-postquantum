@@ -181,6 +181,9 @@
 # define SSL_kECDHEPSK           0x00000080U
 # define SSL_kDHEPSK             0x00000100U
 
+/* NewHope */
+#define SSL_kNEWHOPE             0x00000101U
+
 /* all PSK */
 
 # define SSL_PSK     (SSL_kPSK | SSL_kRSAPSK | SSL_kECDHEPSK | SSL_kDHEPSK)
