@@ -4887,3 +4887,8 @@ NEWHOPE_PAIR_free                       ?	3_0_0	EXIST::FUNCTION:
 NEWHOPE_CTX_new                         ?	3_0_0	EXIST::FUNCTION:
 NEWHOPE_CTX_free                        ?	3_0_0	EXIST::FUNCTION:
 NEWHOPE_PAIR_generate_key               ?	3_0_0	EXIST::FUNCTION:
+NEWHOPE_PAIR_get_publickey              ?	3_0_0	EXIST::FUNCTION:
+NEWHOPE_PAIR_has_privatekey             ?	3_0_0	EXIST::FUNCTION:
+NEWHOPE_compute_key_alice               ?	3_0_0	NOEXIST::FUNCTION:
+NEWHOPE_compute_key_alice               ?	3_0_0	EXIST::FUNCTION:
+NEWHOPE_compute_key_bob                 ?	3_0_0	EXIST::FUNCTION:
