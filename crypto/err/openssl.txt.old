@@ -1,4 +1,4 @@
-# Copyright 1999-2020 The OpenSSL Project Authors. All Rights Reserved.
+# Copyright 1999-2019 The OpenSSL Project Authors. All Rights Reserved.
 #
 # Licensed under the Apache License 2.0 (the "License").  You may not use
 # this file except in compliance with the License.  You can obtain a copy
@@ -920,13 +920,6 @@ EVP_F_S390X_AES_GCM_CTRL:201:s390x_aes_gcm_ctrl
 EVP_F_S390X_AES_GCM_TLS_CIPHER:208:s390x_aes_gcm_tls_cipher
 EVP_F_SCRYPT_ALG:228:scrypt_alg
 EVP_F_UPDATE:173:update
-NEWHOPE_F_NEWHOPE_CTX_FREE:100:
-NEWHOPE_F_NEWHOPE_CTX_NEW:101:
-NEWHOPE_F_NEWHOPE_PAIR_DUP:102:
-NEWHOPE_F_NEWHOPE_PAIR_GENERATE_KEY:106:
-NEWHOPE_F_NEWHOPE_PAIR_NEW:103:
-NEWHOPE_F_NEWHOPE_PUB_DUP:104:
-NEWHOPE_F_NEWHOPE_PUB_NEW:105:
 OBJ_F_OBJ_ADD_OBJECT:105:OBJ_add_object
 OBJ_F_OBJ_ADD_SIGID:107:OBJ_add_sigid
 OBJ_F_OBJ_CREATE:100:OBJ_create
@@ -1829,13 +1822,13 @@ X509V3_F_X509_PURPOSE_SET:141:X509_PURPOSE_set
 X509_F_ADD_CERT_DIR:100:add_cert_dir
 X509_F_BUILD_CHAIN:106:build_chain
 X509_F_BY_FILE_CTRL:101:by_file_ctrl
-X509_F_CACHE_OBJECTS:163:cache_objects
 X509_F_CHECK_NAME_CONSTRAINTS:149:check_name_constraints
 X509_F_CHECK_POLICY:145:check_policy
 X509_F_COMMON_VERIFY_SM2:165:common_verify_sm2
 X509_F_DANE_I2D:107:dane_i2d
 X509_F_DIR_CTRL:102:dir_ctrl
 X509_F_GET_CERT_BY_SUBJECT:103:get_cert_by_subject
+X509_F_CACHE_OBJECTS:163:cache_objects
 X509_F_I2D_X509_AUX:151:i2d_X509_AUX
 X509_F_LOOKUP_CERTS_SK:152:lookup_certs_sk
 X509_F_NETSCAPE_SPKI_B64_DECODE:129:NETSCAPE_SPKI_b64_decode
@@ -2074,8 +2067,8 @@ BN_R_TOO_MANY_TEMPORARY_VARIABLES:109:too many temporary variables
 CMP_R_ERROR_PARSING_PKISTATUS:107:error parsing pkistatus
 CMP_R_FAILURE_OBTAINING_RANDOM:110:failure obtaining random
 CMP_R_INVALID_ARGS:100:invalid args
-CMP_R_MISSING_SENDER_IDENTIFICATION:111:missing sender identification
 CMP_R_MULTIPLE_SAN_SOURCES:102:multiple san sources
+CMP_R_MISSING_SENDER_IDENTIFICATION:111:missing sender identification
 CMP_R_NO_STDIO:194:no stdio
 CMP_R_NULL_ARGUMENT:103:null argument
 CMS_R_ADD_SIGNER_ERROR:99:add signer error
@@ -2497,6 +2490,34 @@ EVP_R_WRAP_MODE_NOT_ALLOWED:170:wrap mode not allowed
 EVP_R_WRONG_FINAL_BLOCK_LENGTH:109:wrong final block length
 EVP_R_XTS_DATA_UNIT_IS_TOO_LARGE:191:xts data unit is too large
 EVP_R_XTS_DUPLICATED_KEYS:192:xts duplicated keys
+KDF_R_BAD_ENCODING:122:bad encoding
+KDF_R_BAD_LENGTH:123:bad length
+KDF_R_BOTH_MODE_AND_MODE_INT:127:both mode and mode int
+KDF_R_INVALID_DIGEST:100:invalid digest
+KDF_R_INVALID_ITERATION_COUNT:119:invalid iteration count
+KDF_R_INVALID_KEY_LEN:120:invalid key len
+KDF_R_INVALID_MAC_TYPE:116:invalid mac type
+KDF_R_INVALID_MODE:128:invalid mode
+KDF_R_INVALID_MODE_INT:129:invalid mode int
+KDF_R_MISSING_CEK_ALG:125:missing cek alg
+KDF_R_MISSING_ITERATION_COUNT:109:missing iteration count
+KDF_R_MISSING_KEY:104:missing key
+KDF_R_MISSING_MESSAGE_DIGEST:105:missing message digest
+KDF_R_MISSING_PARAMETER:101:missing parameter
+KDF_R_MISSING_PASS:110:missing pass
+KDF_R_MISSING_SALT:111:missing salt
+KDF_R_MISSING_SECRET:107:missing secret
+KDF_R_MISSING_SEED:106:missing seed
+KDF_R_MISSING_SESSION_ID:113:missing session id
+KDF_R_MISSING_TYPE:114:missing type
+KDF_R_MISSING_XCGHASH:115:missing xcghash
+KDF_R_NOT_SUPPORTED:118:not supported
+KDF_R_UNKNOWN_PARAMETER_TYPE:103:unknown parameter type
+KDF_R_UNSUPPORTED_CEK_ALG:126:unsupported cek alg
+KDF_R_UNSUPPORTED_MAC_TYPE:117:unsupported mac type
+KDF_R_VALUE_ERROR:108:value error
+KDF_R_VALUE_MISSING:102:value missing
+KDF_R_WRONG_OUTPUT_BUFFER_SIZE:112:wrong output buffer size
 OBJ_R_OID_EXISTS:102:oid exists
 OBJ_R_UNKNOWN_NID:101:unknown nid
 OCSP_R_CERTIFICATE_VERIFY_ERROR:101:certificate verify error
