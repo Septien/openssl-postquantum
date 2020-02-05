@@ -14,6 +14,7 @@
 #ifndef OPENSSL_NO_ERR
 
 static const ERR_STRING_DATA NEWHOPE_str_reasons[] = {
+    {ERR_PACK(ERR_LIB_NEWHOPE, 0, NEWHOPE_R_KDF_FAILED), "kdf failed"},
     {0, NULL}
 };
 

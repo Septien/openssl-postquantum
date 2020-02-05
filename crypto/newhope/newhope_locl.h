@@ -11,6 +11,7 @@ extern "C" {
 struct newhope_param_data {
     size_t pub_key_size;
     size_t pr_key_size;
+    size_t sym_key_size;
 }
 
 /* Public key data structure */

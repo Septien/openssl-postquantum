@@ -44,8 +44,8 @@ NEWHOPE *NEWHOPE_PAIR_get_publickey(NEWHOPE_PAIR *keypair);
 int NEWHOPE_PAIR_has_privatekey(NEWHOPE_PAIR *keypair);
 
 /* Compute the shared secret for alice and bob */
-size_t NEWHOPE_compute_key_alice(unsigned char *out, size_t outlen, const unsigned char *ct, const NEWHOPE_PAIR *alice_keypair);
-size_t NEWHOPE_compute_key_bob(unsigned char *out, size_t outlen, const NEWHOPE_PUB *alice_pub, const NEWHOPE_PUB *pub_bob);
+size_t NEWHOPE_compute_key_alice(unsigned char *out, size_t outlen, const unsigned char *ct, const NEWHOPE_PAIR *alice_keypair, void *(*KDF)(const void *in, size_t inlen, void *out, size_t *outlen));
+size_t NEWHOPE_compute_key_bob(unsigned char *out, size_t outlen, const NEWHOPE_PUB *pub_bob, unsigned char ct, void *(*KDF)(const void *in, size_t inlen, void *out, size_t *outlen));
 
 #  ifdef  __cplusplus
 }

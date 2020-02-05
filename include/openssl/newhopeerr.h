@@ -25,6 +25,7 @@ int ERR_load_NEWHOPE_strings(void);
  */
 # ifndef OPENSSL_NO_DEPRECATED_3_0
 #  define NEWHOPE_F_NEWHOPE_COMPUTE_KEY_ALICE              0
+#  define NEWHOPE_F_NEWHOPE_COMPUTE_KEY_BOB                0
 #  define NEWHOPE_F_NEWHOPE_CTX_FREE                       0
 #  define NEWHOPE_F_NEWHOPE_CTX_NEW                        0
 #  define NEWHOPE_F_NEWHOPE_PAIR_DUP                       0
@@ -37,5 +38,6 @@ int ERR_load_NEWHOPE_strings(void);
 /*
  * NEWHOPE reason codes.
  */
+# define NEWHOPE_R_KDF_FAILED                             100
 
 #endif
