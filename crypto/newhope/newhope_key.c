@@ -10,46 +10,46 @@
 NEWHOPE_CTX *NEWHOPE_CTX_new(const int nid)
 {
     NEWHOPE_CTX *ctx;
-    ctx = (NEWHOPE_CTX) OPENSSL_malloc(sizeof(NEWHOPE_CTX));
+    ctx = (NEWHOPE_CTX *) OPENSSL_malloc(sizeof(NEWHOPE_CTX));
     if (ctx == NULL) {
         NEWHOPEerr(NEWHOPE_F_NEWHOPE_CTX_NEW, ERR_R_MALLOC_FAILURE);
         return (NULL);
     }
-    ctx->pm = (NEWHOPE_DATA) OPENSSL_malloc(sizeof(NEWHOPE_DATA));
-    if (ctx->pm == NULL)
+    ctx->pd = (NEWHOPE_DATA *) OPENSSL_malloc(sizeof(NEWHOPE_DATA));
+    if (ctx->pd == NULL)
     {
         NEWHOPEerr(NEWHOPE_F_NEWHOPE_CTX_NEW, ERR_R_MALLOC_FAILURE);
         return (NULL);
     }
     
     ctx->nid = nid;
-    ctx->pm->pub_key_size = CRYPTO_PUBLICKEYBYTES;
-    ctx->pm->pr_key_size = CRYPTO_SECRETKEYBYTES;
-    ctx->pm->sym_key_size = 128;
+    ctx->pd->pub_key_size = CRYPTO_PUBLICKEYBYTES;
+    ctx->pd->pr_key_size = CRYPTO_SECRETKEYBYTES;
+    ctx->pd->sym_key_size = 128;
 
     return (ctx);
 }
 
 void NEWHOPE_CTX_free(NEWHOPE_CTX *ctx)
 {
-    if (r == NULL) return;
+    if (ctx == NULL) return;
 
-    if (ctx->pm == NULL)
+    if (ctx->pd == NULL)
     {
         NEWHOPEerr(NEWHOPE_F_NEWHOPE_CTX_FREE, ERR_R_PASSED_NULL_PARAMETER);
         return;
     }
 
-    OPENSSL_cleanse((void *) ctx->pm, sizeof(NEWHOPE_DATA));
+    OPENSSL_cleanse((void *) ctx->pd, sizeof(NEWHOPE_DATA));
     OPENSSL_cleanse((void *) ctx, sizeof(NEWHOPE_CTX));
-    OPENSSL_free(ctx->pm);
+    OPENSSL_free(ctx->pd);
     OPENSSL_free(ctx);
 }
 
 
 NEWHOPE_PUB *NEWHOPE_PUB_new(const NEWHOPE_CTX *ctx)
 {
-    NEWHOPE_PUB pub;
+    NEWHOPE_PUB *pub;
 
     if (ctx == NULL)
     {
@@ -79,8 +79,8 @@ NEWHOPE_PUB *NEWHOPE_PUB_new(const NEWHOPE_CTX *ctx)
 
     pub->pm->pub_key_size = ctx->pd->pub_key_size;
     pub->pm->pr_key_size = ctx->pd->pr_key_size;
-    pub->pm->key_size = ctx->pd->sym_key_size;
-    pub->pu = (unsigned char *)OPENSSL_malloc(pub->pm->key_size * sizeof(unsigned char));
+    pub->pm->sym_key_size = ctx->pd->sym_key_size;
+    pub->pu = (unsigned char *)OPENSSL_malloc(pub->pm->sym_key_size * sizeof(unsigned char));
     if (pub->pu == NULL)
     {
         NEWHOPEerr(NEWHOPE_F_NEWHOPE_PUB_NEW, ERR_R_MALLOC_FAILURE);
@@ -92,7 +92,7 @@ NEWHOPE_PUB *NEWHOPE_PUB_new(const NEWHOPE_CTX *ctx)
 
 NEWHOPE_PUB *NEWHOPE_PUB_dup(const NEWHOPE_PUB *src)
 {
-    NEWHOPE_PUB dst;
+    NEWHOPE_PUB *dst;
     
     if (src == NULL)
     {
@@ -100,7 +100,7 @@ NEWHOPE_PUB *NEWHOPE_PUB_dup(const NEWHOPE_PUB *src)
         return (NULL);
     }
 
-    dst = (NEWHOPE_PUB) OPENSSL_malloc(sizeof(NEWHOPE_PUB));
+    dst = (NEWHOPE_PUB *) OPENSSL_malloc(sizeof(NEWHOPE_PUB));
     if (dst == NULL)
     {
         NEWHOPEerr(NEWHOPE_F_NEWHOPE_PUB_DUP, ERR_R_MALLOC_FAILURE);
@@ -114,29 +114,31 @@ NEWHOPE_PUB *NEWHOPE_PUB_dup(const NEWHOPE_PUB *src)
         return (NULL);
     }
 
-    if (pub->pm == NULL)
+    if (src->pm == NULL)
     {
         NEWHOPEerr(NEWHOPE_F_NEWHOPE_PUB_DUP, ERR_R_PASSED_NULL_PARAMETER);
         return (NULL);
     }
-    dst->pm->pub_key_size = pub->pm->pub_key_size;
-    dst->pm->pr_key_size = pub->pm->pr_key_size;
-    dst->pm->key_size = pub->pm->key_siz;
+    dst->pm->pub_key_size = src->pm->pub_key_size;
+    dst->pm->pr_key_size = src->pm->pr_key_size;
+    dst->pm->sym_key_size = src->pm->sym_key_size;
 
-    if (src->pub)
+    if (src->pu)
     {
-        dst->pu = (unsigned char *)OPENSSL_malloc(dst->pm.key_size * sizeof(unsigned char));
+        dst->pu = (unsigned char *)OPENSSL_malloc(dst->pm->pub_key_size * sizeof(unsigned char));
         if (dst->pu == NULL)
         {
             NEWHOPEerr(NEWHOPE_F_NEWHOPE_PUB_DUP, ERR_R_MALLOC_FAILURE);
             NEWHOPE_PUB_free(dst);
             return (NULL);
         }
-        memcpy(dst->pub, src->pub, src->pm->key_size * sizeof(unsigned char));        
+        memcpy(dst->pu, src->pu, src->pm->pub_key_size * sizeof(unsigned char));        
     }
+
+    return (dst);
 }
 
-void NEWHOPE_PUB_free(NEWHOPE *pub)
+void NEWHOPE_PUB_free(NEWHOPE_PUB *pub)
 {
     if (pub == NULL) return;
 
@@ -173,7 +175,7 @@ NEWHOPE_PAIR *NEWHOPE_PAIR_new(NEWHOPE_CTX *ctx)
     }
 
     /* Keys not set yet */
-    pair->key_set = 0;
+    pair->keys_set = 0;
 
     pair->pub = NEWHOPE_PUB_new(ctx);
     pair->pk = (unsigned char *)OPENSSL_malloc(pair->pub->pm->pr_key_size * sizeof(unsigned char));
@@ -228,8 +230,8 @@ NEWHOPE_PAIR *NEWHOPE_PAIR_dup(NEWHOPE_PAIR *pair)
         NEWHOPEerr(NEWHOPE_F_NEWHOPE_PAIR_DUP, ERR_R_MALLOC_FAILURE);
         return (NULL);
     }
-    memcpy(newPair->pk, pair->pk, newPair-pub->pm->pr_key_size * sizeof(unsigned char));
-    newPair->keys_set = pair->key_set;
+    memcpy(newPair->pk, pair->pk, pair->pub->pm->pr_key_size * sizeof(unsigned char));
+    newPair->keys_set = pair->keys_set;
 
     return (newPair);
 }
@@ -268,7 +270,7 @@ int NEWHOPE_PAIR_generate_key(NEWHOPE_PAIR *keypair)
     }
 
     crypto_kem_keypair(keypair->pk, keypair->pub->pu);
-    keypair->key_set = 1;
+    keypair->keys_set = 1;
     return 1;
 }
 
@@ -280,7 +282,7 @@ NEWHOPE_PUB *NEWHOPE_PAIR_get_publickey(NEWHOPE_PAIR *keypair)
     }
     if (keypair->keys_set == 0)
         return (NULL);
-    return pair->pub;
+    return keypair->pub;
 }
 
 size_t NEWHOPE_compute_key_alice(unsigned char *out, size_t outlen, const unsigned char *ct, const NEWHOPE_PUB *alice_keypub, 
@@ -301,7 +303,7 @@ size_t NEWHOPE_compute_key_alice(unsigned char *out, size_t outlen, const unsign
         return (ret);
     }
 
-    memset(ssa, NEWHOPE_CPAKEM_SECRETKEYBYTES * sizeof(unsigned char));
+    memset(ssa, 0, NEWHOPE_CPAKEM_SECRETKEYBYTES * sizeof(unsigned char));
     /* Compute the shared secret for alice, using the ciphertext recieved and alices private key */
     crypto_kem_dec(ssa, ct, alice_keypub->pu);
 
@@ -328,7 +330,7 @@ err:
     return (ret);
 }
 
-size_t NEWHOPE_compute_key_bob(unsigned char *out, size_t outlen, const NEWHOPE_PUB *keypair_bob, unsigned char *ct, 
+size_t NEWHOPE_compute_key_bob(unsigned char *out, size_t outlen, const NEWHOPE_PAIR *keypair_bob, unsigned char *ct, 
                                 void *(*KDF)(const void *in, size_t inlen, void *out, size_t *outlen))
 {
     size_t ret = 0;
@@ -344,7 +346,7 @@ size_t NEWHOPE_compute_key_bob(unsigned char *out, size_t outlen, const NEWHOPE_
         return (ret);
     }
 
-    memset(ssb, NEWHOPE_CPAKEM_SECRETKEYBYTES * sizeof(unsigned char));
+    memset(ssb, 0, NEWHOPE_CPAKEM_SECRETKEYBYTES * sizeof(unsigned char));
     /* Compute the shared secret for bob, using bob's private key*/
     crypto_kem_enc(ct, ssb, keypair_bob->pk);
 
@@ -361,12 +363,12 @@ size_t NEWHOPE_compute_key_bob(unsigned char *out, size_t outlen, const NEWHOPE_
     {
         if (outlen > 128)
             outlen = 128;
-        meemcpy(out, (unsigned char *) ssb, outlen);
+        memcpy(out, (unsigned char *) ssb, outlen);
         ret = outlen;
     }
 
 err:
     if (ssb) OPENSSL_free(ssb);
 
-    return (len);
+    return (ret);
 }

@@ -4892,3 +4892,4 @@ NEWHOPE_PAIR_has_privatekey             ?	3_0_0	EXIST::FUNCTION:
 NEWHOPE_compute_key_alice               ?	3_0_0	NOEXIST::FUNCTION:
 NEWHOPE_compute_key_alice               ?	3_0_0	EXIST::FUNCTION:
 NEWHOPE_compute_key_bob                 ?	3_0_0	EXIST::FUNCTION:
+ERR_load_NEWHOPE_strings                ?	3_0_0	EXIST::FUNCTION:

@@ -1,3 +1,4 @@
-LIBS=./
-SOURCE=[../../libcrypto]=\
-        newhope.c
+LIBS=../../libcrypto
+SOURCE[../../libcrypto]=\
+        newhope.c newhope_err.c newhope_key.c newhope_kex.c cpapke.c fips202.c \
+        ntt.c poly.c reduce.c rng.c verify.c precomp.c
