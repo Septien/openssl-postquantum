@@ -5,3 +5,5 @@
 *.a
 *.pod
 *.s
+test/
+*.dylib
