@@ -12,6 +12,7 @@
 #include <openssl/bn.h>
 #include <openssl/err.h>
 #include <openssl/newhopeerr.h>
+#include "newhope_locl.h"
 
 #include <stdio.h>
 

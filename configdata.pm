@@ -29,7 +29,7 @@ our %config = (
     "HASHBANGPERL" => "/usr/bin/env perl",
     "LDFLAGS" => [],
     "LDLIBS" => [],
-    "PERL" => "/usr/bin/perl",
+    "PERL" => "/usr/local/Cellar/perl/5.30.1/bin/perl",
     "RANLIB" => "ranlib -c",
     "RC" => "windres",
     "RCFLAGS" => [],
@@ -118,6 +118,7 @@ our %config = (
         "crypto/ess/build.info",
         "crypto/crmf/build.info",
         "crypto/cmp/build.info",
+        "crypto/newhope/build.info",
         "apps/lib/build.info",
         "test/ossl_shim/build.info",
         "providers/common/build.info",
@@ -196,14 +197,16 @@ our %config = (
     "openssl_sys_defines" => [
         "OPENSSL_SYS_MACOSX"
     ],
-    "openssldir" => "",
-    "options" => " no-asan no-buildtest-c++ no-crypto-mdebug no-crypto-mdebug-backtrace no-devcryptoeng no-ec_nistp_64_gcc_128 no-egd no-external-tests no-fuzz-afl no-fuzz-libfuzzer no-ktls no-md2 no-msan no-rc5 no-sctp no-ssl-trace no-ssl3 no-ssl3-method no-trace no-ubsan no-unit-test no-uplink no-weak-ssl-ciphers no-zlib no-zlib-dynamic",
+    "openssldir" => "/Users/jash/Documents/Maestria/openssl_postquantum",
+    "options" => "enable-newhope --openssldir=/Users/jash/Documents/Maestria/openssl_postquantum no-asan no-buildtest-c++ no-crypto-mdebug no-crypto-mdebug-backtrace no-devcryptoeng no-ec_nistp_64_gcc_128 no-egd no-external-tests no-fuzz-afl no-fuzz-libfuzzer no-ktls no-md2 no-msan no-rc5 no-sctp no-ssl-trace no-ssl3 no-ssl3-method no-trace no-ubsan no-unit-test no-uplink no-weak-ssl-ciphers no-zlib no-zlib-dynamic",
     "patch" => "0",
     "perl_archname" => "darwin-thread-multi-2level",
-    "perl_cmd" => "/usr/bin/perl",
-    "perl_version" => "5.18.4",
+    "perl_cmd" => "/usr/local/Cellar/perl/5.30.1/bin/perl",
+    "perl_version" => "5.30.1",
     "perlargv" => [
-        "darwin64-x86_64-cc"
+        "darwin64-x86_64-cc",
+        "enable-newhope",
+        "--openssldir=/Users/jash/Documents/Maestria/openssl_postquantum"
     ],
     "perlenv" => {
         "AR" => undef,
@@ -359,6 +362,7 @@ our @disablables = (
     "msan",
     "multiblock",
     "nextprotoneg",
+    "newhope",
     "pinshared",
     "ocb",
     "ocsp",
@@ -745,6 +749,9 @@ our %unified_info = (
                 "noinst" => "1"
             },
             "test/buildtest_c_ocsp" => {
+                "noinst" => "1"
+            },
+            "test/buildtest_c_opensslv" => {
                 "noinst" => "1"
             },
             "test/buildtest_c_ossl_typ" => {
@@ -1833,6 +1840,10 @@ our %unified_info = (
             "libssl"
         ],
         "test/buildtest_c_ocsp" => [
+            "libcrypto",
+            "libssl"
+        ],
+        "test/buildtest_c_opensslv" => [
             "libcrypto",
             "libssl"
         ],
@@ -3956,6 +3967,39 @@ our %unified_info = (
                 ]
             }
         },
+        "crypto/newhope" => {
+            "deps" => [
+                "crypto/newhope/libcrypto-lib-cpapke.o",
+                "crypto/newhope/libcrypto-lib-fips202.o",
+                "crypto/newhope/libcrypto-lib-newhope.o",
+                "crypto/newhope/libcrypto-lib-newhope_err.o",
+                "crypto/newhope/libcrypto-lib-newhope_kex.o",
+                "crypto/newhope/libcrypto-lib-newhope_key.o",
+                "crypto/newhope/libcrypto-lib-ntt.o",
+                "crypto/newhope/libcrypto-lib-poly.o",
+                "crypto/newhope/libcrypto-lib-precomp.o",
+                "crypto/newhope/libcrypto-lib-reduce.o",
+                "crypto/newhope/libcrypto-lib-rng.o",
+                "crypto/newhope/libcrypto-lib-verify.o",
+                "crypto/newhope/libcrypto-shlib-cpapke.o",
+                "crypto/newhope/libcrypto-shlib-fips202.o",
+                "crypto/newhope/libcrypto-shlib-newhope.o",
+                "crypto/newhope/libcrypto-shlib-newhope_err.o",
+                "crypto/newhope/libcrypto-shlib-newhope_kex.o",
+                "crypto/newhope/libcrypto-shlib-newhope_key.o",
+                "crypto/newhope/libcrypto-shlib-ntt.o",
+                "crypto/newhope/libcrypto-shlib-poly.o",
+                "crypto/newhope/libcrypto-shlib-precomp.o",
+                "crypto/newhope/libcrypto-shlib-reduce.o",
+                "crypto/newhope/libcrypto-shlib-rng.o",
+                "crypto/newhope/libcrypto-shlib-verify.o"
+            ],
+            "products" => {
+                "lib" => [
+                    "libcrypto"
+                ]
+            }
+        },
         "crypto/objects" => {
             "deps" => [
                 "crypto/objects/libcrypto-lib-o_names.o",
@@ -5936,6 +5980,10 @@ our %unified_info = (
             "test/generate_buildtest.pl",
             "ocsp"
         ],
+        "test/buildtest_opensslv.c" => [
+            "test/generate_buildtest.pl",
+            "opensslv"
+        ],
         "test/buildtest_ossl_typ.c" => [
             "test/generate_buildtest.pl",
             "ossl_typ"
@@ -6887,6 +6935,9 @@ our %unified_info = (
         "test/buildtest_c_ocsp" => [
             "include"
         ],
+        "test/buildtest_c_opensslv" => [
+            "include"
+        ],
         "test/buildtest_c_ossl_typ" => [
             "include"
         ],
@@ -7693,6 +7744,7 @@ our %unified_info = (
         "test/buildtest_c_obj_mac",
         "test/buildtest_c_objects",
         "test/buildtest_c_ocsp",
+        "test/buildtest_c_opensslv",
         "test/buildtest_c_ossl_typ",
         "test/buildtest_c_params",
         "test/buildtest_c_pem",
@@ -8330,6 +8382,18 @@ our %unified_info = (
             "crypto/modes/libcrypto-shlib-siv128.o",
             "crypto/modes/libcrypto-shlib-wrap128.o",
             "crypto/modes/libcrypto-shlib-xts128.o",
+            "crypto/newhope/libcrypto-shlib-cpapke.o",
+            "crypto/newhope/libcrypto-shlib-fips202.o",
+            "crypto/newhope/libcrypto-shlib-newhope.o",
+            "crypto/newhope/libcrypto-shlib-newhope_err.o",
+            "crypto/newhope/libcrypto-shlib-newhope_kex.o",
+            "crypto/newhope/libcrypto-shlib-newhope_key.o",
+            "crypto/newhope/libcrypto-shlib-ntt.o",
+            "crypto/newhope/libcrypto-shlib-poly.o",
+            "crypto/newhope/libcrypto-shlib-precomp.o",
+            "crypto/newhope/libcrypto-shlib-reduce.o",
+            "crypto/newhope/libcrypto-shlib-rng.o",
+            "crypto/newhope/libcrypto-shlib-verify.o",
             "crypto/objects/libcrypto-shlib-o_names.o",
             "crypto/objects/libcrypto-shlib-obj_dat.o",
             "crypto/objects/libcrypto-shlib-obj_err.o",
@@ -12160,6 +12224,78 @@ our %unified_info = (
         "crypto/modes/libfips-lib-xts128.o" => [
             "crypto/modes/xts128.c"
         ],
+        "crypto/newhope/libcrypto-lib-cpapke.o" => [
+            "crypto/newhope/cpapke.c"
+        ],
+        "crypto/newhope/libcrypto-lib-fips202.o" => [
+            "crypto/newhope/fips202.c"
+        ],
+        "crypto/newhope/libcrypto-lib-newhope.o" => [
+            "crypto/newhope/newhope.c"
+        ],
+        "crypto/newhope/libcrypto-lib-newhope_err.o" => [
+            "crypto/newhope/newhope_err.c"
+        ],
+        "crypto/newhope/libcrypto-lib-newhope_kex.o" => [
+            "crypto/newhope/newhope_kex.c"
+        ],
+        "crypto/newhope/libcrypto-lib-newhope_key.o" => [
+            "crypto/newhope/newhope_key.c"
+        ],
+        "crypto/newhope/libcrypto-lib-ntt.o" => [
+            "crypto/newhope/ntt.c"
+        ],
+        "crypto/newhope/libcrypto-lib-poly.o" => [
+            "crypto/newhope/poly.c"
+        ],
+        "crypto/newhope/libcrypto-lib-precomp.o" => [
+            "crypto/newhope/precomp.c"
+        ],
+        "crypto/newhope/libcrypto-lib-reduce.o" => [
+            "crypto/newhope/reduce.c"
+        ],
+        "crypto/newhope/libcrypto-lib-rng.o" => [
+            "crypto/newhope/rng.c"
+        ],
+        "crypto/newhope/libcrypto-lib-verify.o" => [
+            "crypto/newhope/verify.c"
+        ],
+        "crypto/newhope/libcrypto-shlib-cpapke.o" => [
+            "crypto/newhope/cpapke.c"
+        ],
+        "crypto/newhope/libcrypto-shlib-fips202.o" => [
+            "crypto/newhope/fips202.c"
+        ],
+        "crypto/newhope/libcrypto-shlib-newhope.o" => [
+            "crypto/newhope/newhope.c"
+        ],
+        "crypto/newhope/libcrypto-shlib-newhope_err.o" => [
+            "crypto/newhope/newhope_err.c"
+        ],
+        "crypto/newhope/libcrypto-shlib-newhope_kex.o" => [
+            "crypto/newhope/newhope_kex.c"
+        ],
+        "crypto/newhope/libcrypto-shlib-newhope_key.o" => [
+            "crypto/newhope/newhope_key.c"
+        ],
+        "crypto/newhope/libcrypto-shlib-ntt.o" => [
+            "crypto/newhope/ntt.c"
+        ],
+        "crypto/newhope/libcrypto-shlib-poly.o" => [
+            "crypto/newhope/poly.c"
+        ],
+        "crypto/newhope/libcrypto-shlib-precomp.o" => [
+            "crypto/newhope/precomp.c"
+        ],
+        "crypto/newhope/libcrypto-shlib-reduce.o" => [
+            "crypto/newhope/reduce.c"
+        ],
+        "crypto/newhope/libcrypto-shlib-rng.o" => [
+            "crypto/newhope/rng.c"
+        ],
+        "crypto/newhope/libcrypto-shlib-verify.o" => [
+            "crypto/newhope/verify.c"
+        ],
         "crypto/objects/libcrypto-lib-o_names.o" => [
             "crypto/objects/o_names.c"
         ],
@@ -14241,6 +14377,18 @@ our %unified_info = (
             "crypto/modes/libcrypto-lib-siv128.o",
             "crypto/modes/libcrypto-lib-wrap128.o",
             "crypto/modes/libcrypto-lib-xts128.o",
+            "crypto/newhope/libcrypto-lib-cpapke.o",
+            "crypto/newhope/libcrypto-lib-fips202.o",
+            "crypto/newhope/libcrypto-lib-newhope.o",
+            "crypto/newhope/libcrypto-lib-newhope_err.o",
+            "crypto/newhope/libcrypto-lib-newhope_kex.o",
+            "crypto/newhope/libcrypto-lib-newhope_key.o",
+            "crypto/newhope/libcrypto-lib-ntt.o",
+            "crypto/newhope/libcrypto-lib-poly.o",
+            "crypto/newhope/libcrypto-lib-precomp.o",
+            "crypto/newhope/libcrypto-lib-reduce.o",
+            "crypto/newhope/libcrypto-lib-rng.o",
+            "crypto/newhope/libcrypto-lib-verify.o",
             "crypto/objects/libcrypto-lib-o_names.o",
             "crypto/objects/libcrypto-lib-obj_dat.o",
             "crypto/objects/libcrypto-lib-obj_err.o",
@@ -15793,6 +15941,12 @@ our %unified_info = (
         ],
         "test/buildtest_c_ocsp-bin-buildtest_ocsp.o" => [
             "test/buildtest_ocsp.c"
+        ],
+        "test/buildtest_c_opensslv" => [
+            "test/buildtest_c_opensslv-bin-buildtest_opensslv.o"
+        ],
+        "test/buildtest_c_opensslv-bin-buildtest_opensslv.o" => [
+            "test/buildtest_opensslv.c"
         ],
         "test/buildtest_c_ossl_typ" => [
             "test/buildtest_c_ossl_typ-bin-buildtest_ossl_typ.o"

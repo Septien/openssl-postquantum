@@ -16,12 +16,12 @@ struct newhope_param_data {
 /* Public key data structure */
 struct newhope_pub_st {
     unsigned char *pu;
-    NEWHOPE_DATA *pm;
+    struct newhope_param_data *pm;
 };
 
 /* Key pair data structure (private and public) */
 struct newhope_pair_st {
-    NEWHOPE_PUB *pub;
+    struct newhope_pub_st *pub;
     unsigned char *pk;
     int keys_set;           // Is there a private and public key?
 };
@@ -29,7 +29,7 @@ struct newhope_pair_st {
 /* Context structure */
 struct newhope_ctx_st {
     int nid;
-    NEWHOPE_DATA *pd;
+    struct newhope_param_data *pd;
 };
 
 #ifdef _cplusplus

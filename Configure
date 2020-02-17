@@ -401,6 +401,7 @@ my @disablables = (
     "msan",
     "multiblock",
     "nextprotoneg",
+    "newhope",
     "pinshared",
     "ocb",
     "ocsp",
@@ -497,6 +498,7 @@ our %disabled = ( # "what"         => "comment"
                   "zlib"                => "default",
                   "zlib-dynamic"        => "default",
                   "ktls"                => "default",
+                  "newhope"             => "default"
                 );
 
 # Note: => pair form used for aesthetics, not to truly make a hash table
