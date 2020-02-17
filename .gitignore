@@ -7,3 +7,5 @@
 *.s
 test/
 *.dylib
+fuzz/
+*.txt
