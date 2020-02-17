@@ -16,6 +16,7 @@
 #define ECDH_SECONDS    10
 #define EdDSA_SECONDS   10
 #define SM2_SECONDS     10
+#define NEWHOPE_SECONDS 10
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -101,6 +102,9 @@
 #ifndef OPENSSL_NO_EC
 # include <openssl/ec.h>
 #endif
+#ifndef OPENSSL_NO_NEWHOPE
+#include <openssl/newhope.h>
+#endif
 #include <openssl/modes.h>
 
 #ifndef HAVE_FORK
@@ -120,6 +124,12 @@
 #define MAX_MISALIGNMENT 63
 #define MAX_ECDH_SIZE   256
 #define MISALIGN        64
+
+#define NEWHOPE_NUM 10
+#define MAX_NEWHOPE_SIZE 512
+
+static const char rnd_seed[] = "string to make the random number generator think it has entropy";
+static int rnd_fake = 0;
 
 typedef struct openssl_speed_sec_st {
     int sym;
@@ -206,6 +216,25 @@ static void pkey_print_message(const char *str, const char *str2,
 static void print_result(int alg, int run_no, int count, double time_used);
 #ifndef NO_FORK
 static int do_multi(int multi, int size_num);
+#endif
+
+#if defined(OPENSSL_NO_NEWHOPE)
+#else
+static const int KDF1_SHA1_len = 20;
+static void * KDF1_SHA1(const void *in, size_t inlen, void *out, size_t *outlen)
+{
+#ifndef OPENSSL_NO_SHA
+    if (*outlen < SHA_DIGEST_LENGTH)
+    {
+        return NULL;
+    }
+    else
+        *outlen = SHA_DIGEST_LENGTH;
+    return SHA1(in, inlen, out);
+#else
+    return NULL;
+#endif
+}
 #endif
 
 static const int lengths_list[] = {
@@ -405,7 +434,7 @@ static const char *names[] = {
     "camellia-128 cbc", "camellia-192 cbc", "camellia-256 cbc",
     "evp", "sha256", "sha512", "whirlpool",
     "aes-128 ige", "aes-192 ige", "aes-256 ige", "ghash",
-    "rand", "hmac", "cmac"
+    "rand", "hmac", "cmac", "newhope"
 };
 #define ALGOR_NUM       OSSL_NELEM(names)
 
@@ -633,6 +662,10 @@ static double sm2_results[SM2_NUM][2];    /* 2 ops: sign then verify */
 # endif /* OPENSSL_NO_SM2 */
 #endif /* OPENSSL_NO_EC */
 
+#ifndef OPENSSL_NO_NEWHOPE
+static double newhope_results[NEWHOPE_NUM][3];
+#endif
+
 #ifndef SIGALRM
 # define COND(d) (count < (d))
 # define COUNT(d) (d)
@@ -677,6 +710,15 @@ typedef struct loopargs_st {
 #endif
     GCM128_CONTEXT *gcm_ctx;
 } loopargs_t;
+
+#ifndef OPENSSL_NO_NEWHOPE
+typedef struct newhope_st {
+    NEWHOPE_PAIR *newhope_a, *newhope_b;
+    unsigned char newhope_secret_a[MAX_NEWHOPE_SIZE], newhope_secret_b[MAX_NEWHOPE_SIZE];
+    unsigned char *ct;
+    int newhope_secret_size_a, newhope_secret_size_b;
+} nh_t;
+#endif
 static int run_benchmark(int async_jobs, int (*loop_function) (void *),
                          loopargs_t * loopargs);
 
@@ -1725,6 +1767,9 @@ int speed_main(int argc, char **argv)
 # ifndef OPENSSL_NO_SM2
     int sm2_doit[SM2_NUM] = { 0 };
 # endif
+#ifndef OPENSSL_NO_NEWHOPE
+    int newhope_doit[NEWHOPE_NUM] = { 0 };
+#endif
     OPENSSL_assert(OSSL_NELEM(test_curves) >= EC_NUM);
     OPENSSL_assert(OSSL_NELEM(test_ed_curves) >= EdDSA_NUM);
 # ifndef OPENSSL_NO_SM2
@@ -1946,6 +1991,13 @@ int speed_main(int argc, char **argv)
             sm2_doit[i] = 2;
             continue;
         }
+# endif
+# ifndef OPENSSL_NO_NEWHOPE
+    if (strcmp(*argv, "newhope") == 0) {
+        for (loop = 0; loop < OSSL_NELEM(newhope_doit); loop++)
+            newhope_doit[i] = 0;
+        continue;
+    }
 # endif
 #endif
         BIO_printf(bio_err, "%s: Unknown algorithm %s\n", prog, *argv);
@@ -3643,6 +3695,85 @@ int speed_main(int argc, char **argv)
 # endif                         /* OPENSSL_NO_SM2 */
 
 #endif                          /* OPENSSL_NO_EC */
+
+#ifndef OPENSSL_NO_NEWHOP
+    nh_t *args = NULL;
+    if (RAND_status() != 1)
+    {
+        RAND_seed(rnd_seed, sizeof(rnd_seed));
+        rnd_fake = 1;
+    }
+    NEWHOPE_CTX *ctx = NEWHOPE_CTX_new(1);
+    if (ctx == NULL)
+    {
+        BIO_printf(bio_err, "NEWHOPE failure.\n");
+        ERR_print_errors(bio_err);
+        rsa_count = 1;
+    }
+    else
+    {
+        args = (nh_t *) app_malloc(NEWHOPE_NUM * sizeof(nh_t), "Array of newhope parameters");
+        int j;
+        for (j = 0; j < NEWHOPE_NUM; j++)
+        {
+            if (!newhope_doit[j]) continue;
+            args[i].newhope_a = NEWHOPE_PAIR_new(ctx);
+            args[i].newhope_b = NEWHOPE_PAIR_new(ctx);
+            if ( (args[i].newhope_a == NULL) || (args[i].newhope_b == NULL) )
+            {
+                BIO_printf(bio_err, "NEWHOPE failure");
+                ERR_print_errors(bio_err);
+                rsa_count = 1;
+            }
+            else
+            {
+                /* Time NEWHOPE key generation */
+                pkey_print_message("newhope", "key generation", NEWHOPE_NUM, ctx->pd->pub_key_size, 10);
+                Time_F(START);
+                NEWHOPE_PAIR_generate_key(args[i].newhope_a);
+                d = Time_F(STOP);
+                // Machine readable code
+                newhope_results[j][0] = d;
+
+                args[i].newhope_secret_size_b = KDF1_SHA1_len;
+                args[i].newhope_secret_size_a = KDF1_SHA1_len;
+                // Generate two NEWHOPE keys
+                if (!NEWHOPE_PAIR_generate_key(args[i].newhope_a) || NEWHOPE_PAIR_generate_key(args[i].newhope_b))
+                {
+                    BIO_printf(bio_err, "NEWHOPE key generation failure.\n");
+                    ERR_print_errors(bio_err);
+                    rsa_count = 1;
+                }
+                else
+                {
+                    /* Time NEWHOPE Bob shared secret generation */
+                    pkey_print_message("newhope", "Bob shared secret", NEWHOPE_NUM, ctx->pd->sym_key_size, 10);
+                    Time_F(START);
+                    NEWHOPE_compute_key_bob(args[i].newhope_secret_b, args[i].newhope_secret_size_b, args[i].newhope_b, args[i].ct, KDF1_SHA1);
+                    d = Time_F(STOP);
+                    // Machine readeable code
+                    newhope_results[j][1] = d;
+
+                    /* Time NEWHOPE Alice shared secret generation */
+                    pkey_print_message("newhope", "Alice shared secret", NEWHOPE_NUM, ctx->pd->sym_key_size, 10);
+                    Time_F(START);
+                    NEWHOPE_compute_key_alice(args[i].newhope_secret_a, args[i].newhope_secret_size_a, args[i].ct, NEWHOPE_PAIR_get_publickey(args[i].newhope_a), KDF1_SHA1);
+                    d = Time_F(STOP);
+                    // Machine readeable code
+                    newhope_results[j][2] = d;
+                }
+            }
+            if (rsa_count < 1)
+            {
+                /* If longer than 10s, don't do any more */
+                for (j = 0; j < NEWHOPE_NUM; j++)
+                    newhope_doit[j] = 0;
+            }
+        }
+    }
+    if (rnd_fake) RAND_cleanup();
+#endif                          /* OPENSSL_NO_NEWHOPE */
+
 #ifndef NO_FORK
  show_res:
 #endif
@@ -3866,6 +3997,27 @@ int speed_main(int argc, char **argv)
     OPENSSL_free(evp_hmac_name);
 #ifndef OPENSSL_NO_CMAC
     OPENSSL_free(evp_cmac_name);
+#endif
+
+#ifndef OPENSSL_NO_NEWHOPE
+    int j = 1;
+    for (k = 0; k < NEWHOPE_NUM; k++)
+    {
+        if (!newhope_doit[k]) continue;
+        if (j)
+        {
+            printf("%19skeygen    keygen/s    Bob    shared    Bob/s    Alice shared    Alice/s\n", " ");
+            j = 0;
+        }
+        else
+        {
+            fprintf(stdout, "newhope n=%4u    %8.1f    %8.4f    %8.4fs    %8.1f    %8.4f    %8.1f\n",
+                    512,
+                    newhope_results[k][0], 1.0 / newhope_results[k][0],
+                    newhope_results[k][1], 1.0 / newhope_results[k][1],
+                    newhope_results[k][2], 1.0 / newhope_results[k][2]);
+        }
+    }
 #endif
 
     if (async_jobs > 0) {
