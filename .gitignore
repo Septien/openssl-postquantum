@@ -5,7 +5,6 @@
 *.a
 *.pod
 *.s
-test/
 *.dylib
 fuzz/
 *.txt
