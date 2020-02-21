@@ -713,7 +713,8 @@ typedef struct loopargs_st {
 
 #ifndef OPENSSL_NO_NEWHOPE
 typedef struct newhope_st {
-    NEWHOPE_PAIR *newhope_a, *newhope_b;
+    NEWHOPE_PAIR *newhope_a;
+    NEWHOPE_PUB *newhope_b;
     unsigned char newhope_secret_a[MAX_NEWHOPE_SIZE], newhope_secret_b[MAX_NEWHOPE_SIZE];
     unsigned char *ct;
     int newhope_secret_size_a, newhope_secret_size_b;
@@ -3718,7 +3719,7 @@ int speed_main(int argc, char **argv)
         {
             if (!newhope_doit[j]) continue;
             args[i].newhope_a = NEWHOPE_PAIR_new(ctx);
-            args[i].newhope_b = NEWHOPE_PAIR_new(ctx);
+            args[i].newhope_b = NEWHOPE_PUB_new(ctx);
             if ( (args[i].newhope_a == NULL) || (args[i].newhope_b == NULL) )
             {
                 BIO_printf(bio_err, "NEWHOPE failure");
@@ -3738,7 +3739,14 @@ int speed_main(int argc, char **argv)
                 args[i].newhope_secret_size_b = KDF1_SHA1_len;
                 args[i].newhope_secret_size_a = KDF1_SHA1_len;
                 // Generate two NEWHOPE keys
-                if (!NEWHOPE_PAIR_generate_key(args[i].newhope_a) || NEWHOPE_PAIR_generate_key(args[i].newhope_b))
+                if (!NEWHOPE_PAIR_generate_key(args[i].newhope_a))
+                {
+                    BIO_printf(bio_err, "NEWHOPE key generation failure.\n");
+                    ERR_print_errors(bio_err);
+                    rsa_count = 1;
+                }
+                args[i].newhope_b = NEWHOPE_PAIR_get_publickey(args[i].newhope_a);
+                if (args[i].newhope_b == NULL)
                 {
                     BIO_printf(bio_err, "NEWHOPE key generation failure.\n");
                     ERR_print_errors(bio_err);
@@ -3757,7 +3765,7 @@ int speed_main(int argc, char **argv)
                     /* Time NEWHOPE Alice shared secret generation */
                     pkey_print_message("newhope", "Alice shared secret", NEWHOPE_NUM, ctx->pd->sym_key_size, 10);
                     Time_F(START);
-                    NEWHOPE_compute_key_alice(args[i].newhope_secret_a, args[i].newhope_secret_size_a, args[i].ct, NEWHOPE_PAIR_get_publickey(args[i].newhope_a), KDF1_SHA1);
+                    NEWHOPE_compute_key_alice(args[i].newhope_secret_a, args[i].newhope_secret_size_a, args[i].ct, args[i].newhope_a, KDF1_SHA1);
                     d = Time_F(STOP);
                     // Machine readeable code
                     newhope_results[j][2] = d;

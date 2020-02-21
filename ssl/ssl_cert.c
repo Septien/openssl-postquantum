@@ -99,6 +99,18 @@ CERT *ssl_cert_dup(CERT *cert)
     ret->dh_tmp_auto = cert->dh_tmp_auto;
 #endif
 
+#ifndef OPENSSL_NO_NEWHOPE
+    if (cert->newhope_temp)
+    {
+        ret->newhope_temp = NEWHOPE_PAIR_dup(cert->newhope_temp);
+        if (ret->newhope_temp == NULL)
+        {
+            SSLerr(SSL_F_SSL_CERT_DUP, ERR_R_NEWHOPE_LIB);
+            goto err;
+        }
+    }
+#endif
+
     for (i = 0; i < SSL_PKEY_NUM; i++) {
         CERT_PKEY *cpk = cert->pkeys + i;
         CERT_PKEY *rpk = ret->pkeys + i;
@@ -234,6 +246,13 @@ void ssl_cert_free(CERT *c)
 
 #ifndef OPENSSL_NO_DH
     EVP_PKEY_free(c->dh_tmp);
+#endif
+
+#ifndef OPENSSL_NO_NEWHOPE
+    if (c->newhope_temp != NULL)
+    {
+        NEWHOPE_PAIR_free(c->newhope_temp);
+    }
 #endif
 
     ssl_cert_clear_certs(c);

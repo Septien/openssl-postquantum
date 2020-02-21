@@ -285,12 +285,12 @@ NEWHOPE_PUB *NEWHOPE_PAIR_get_publickey(NEWHOPE_PAIR *keypair)
     return keypair->pub;
 }
 
-size_t NEWHOPE_compute_key_alice(unsigned char *out, size_t outlen, const unsigned char *ct, const NEWHOPE_PUB *alice_keypub, 
+size_t NEWHOPE_compute_key_alice(unsigned char *out, size_t outlen, const unsigned char *ct, const NEWHOPE_PAIR *alice_keypair, 
                                     void *(*KDF)(const void *in, size_t inlen, void *out, size_t *outlen))
 {
     size_t ret = 0;
 
-    if ((alice_keypub == NULL) || (ct == NULL))
+    if ((alice_keypair == NULL) || (ct == NULL))
     {
         NEWHOPEerr(NEWHOPE_F_NEWHOPE_COMPUTE_KEY_ALICE, ERR_R_PASSED_NULL_PARAMETER);
         return (ret);
@@ -304,8 +304,8 @@ size_t NEWHOPE_compute_key_alice(unsigned char *out, size_t outlen, const unsign
     }
 
     memset(ssa, 0, NEWHOPE_CPAKEM_SECRETKEYBYTES * sizeof(unsigned char));
-    /* Compute the shared secret for alice, using the ciphertext recieved and alices private key */
-    crypto_kem_dec(ssa, ct, alice_keypub->pu);
+    /* Compute the shared secret for alice, using the ciphertext recieved and alice's private key */
+    crypto_kem_dec(ssa, ct, alice_keypair->pk);
 
     if (KDF != 0)
     {
@@ -330,11 +330,11 @@ err:
     return (ret);
 }
 
-size_t NEWHOPE_compute_key_bob(unsigned char *out, size_t outlen, const NEWHOPE_PAIR *keypair_bob, unsigned char *ct, 
+size_t NEWHOPE_compute_key_bob(unsigned char *out, size_t outlen, const NEWHOPE_PUB *pub_bob, unsigned char *ct, 
                                 void *(*KDF)(const void *in, size_t inlen, void *out, size_t *outlen))
 {
     size_t ret = 0;
-    if (keypair_bob == NULL)
+    if (pub_bob == NULL)
     {
         NEWHOPEerr(NEWHOPE_F_NEWHOPE_COMPUTE_KEY_BOB, ERR_R_PASSED_NULL_PARAMETER);
         return (ret);
@@ -348,7 +348,7 @@ size_t NEWHOPE_compute_key_bob(unsigned char *out, size_t outlen, const NEWHOPE_
 
     memset(ssb, 0, NEWHOPE_CPAKEM_SECRETKEYBYTES * sizeof(unsigned char));
     /* Compute the shared secret for bob, using bob's private key*/
-    crypto_kem_enc(ct, ssb, keypair_bob->pk);
+    crypto_kem_enc(ct, ssb, pub_bob->pu);
 
     if (KDF != 0)
     {

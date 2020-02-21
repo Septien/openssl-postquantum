@@ -36,6 +36,10 @@
 # include "internal/tsan_assist.h"
 # include "internal/bio.h"
 
+#ifndef OPENSSL_NO_NEWHOPE
+#include <openssl/newhope.h>
+#endif
+
 # ifdef OPENSSL_BUILD_SHLIBSSL
 #  undef OPENSSL_EXTERN
 #  define OPENSSL_EXTERN OPENSSL_EXPORT
@@ -1910,6 +1914,9 @@ typedef struct cert_st {
     DH *(*dh_tmp_cb) (SSL *ssl, int is_export, int keysize);
     int dh_tmp_auto;
 # endif
+#ifndef OPENSSL_NO_NEWHOPE
+    NEWHOPE_PAIR *newhope_tmp;
+#endif
     /* Flags related to certificates */
     uint32_t cert_flags;
     CERT_PKEY pkeys[SSL_PKEY_NUM];

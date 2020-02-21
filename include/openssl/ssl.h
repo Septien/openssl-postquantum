@@ -88,6 +88,7 @@ extern "C" {
 # define SSL_TXT_kDHEPSK         "kDHEPSK"
 # define SSL_TXT_kGOST           "kGOST"
 # define SSL_TXT_kSRP            "kSRP"
+#define SSL_TXT_kNEWHOPE         "kNEWHOPE"
 
 # define SSL_TXT_aRSA            "aRSA"
 # define SSL_TXT_aDSS            "aDSS"
