@@ -24,8 +24,7 @@ int main(int argc, char **argv)
 #else
 #include <openssl/newhope.h>
 
-static const char rnd_seed[] = "Some random string, for the random number generator";
-static const int KDF_SHA1_len = 20;
+static const int KDF_SHA1_len = 128;
 static void *KDF1_SHA1(const void *in, size_t inlen, void *out, size_t *outlen)
 {
 #ifndef OPENSSL_NO_SHA
@@ -39,99 +38,44 @@ static void *KDF1_SHA1(const void *in, size_t inlen, void *out, size_t *outlen)
 #endif
 }
 
-static int test_newhope(BIO *out, int single)
+static int test_newhope(void)
 {
-    NEWHOPE_PAIR *alice = NULL, *bob = NULL;
-    NEWHOPE_PUB *bobp = NULL;
-    NEWHOPE_CTX *ctx = NULL;
+    /* Necessary data structures for key exchange */
+    NEWHOPE_CTX  *ctx   = NULL;
+    NEWHOPE_PAIR *alice = NULL;
+    NEWHOPE_PUB  *bob   = NULL;
 
+    /* Necessary buffers for storing generated data */
     unsigned char *apubbuf = NULL, *bpubbuf = NULL;
-    size_t apublen, bpublen;
-
     unsigned char *assbuf = NULL, *bssbuf = NULL;
-    size_t asslen, bsslen;
-
     unsigned char *ct = NULL;
 
-    int i, ret = 0;
+    int bsslen = 0, asslen = 0;
 
-    ctx = NEWHOPE_CTX_new(1);
-    alice = NEWHOPE_PAIR_new(ctx);
-    bob = NEWHOPE_PAIR_new(ctx);
-    
+    int ret = 0;
+    if (!TEST_ptr(ctx = NEWHOPE_CTX_new(1))) goto err;
 
-    if ( (alice == NULL) || (bob == NULL) || (ctx == NULL) )
-    {
-        goto err;
-    }
+    if (!TEST_ptr(alice = NEWHOPE_PAIR_new(ctx)) || !TEST_ptr(bob = NEWHOPE_PUB_new(ctx))) goto err;
 
-    if (single) BIO_puts(out, "Testing key generation");
+    /* Generate the pair of keys for alice */
+    if (!TEST_int_eq(NEWHOPE_PAIR_generate_key(alice), 1)) goto err;
 
-    if (!NEWHOPE_PAIR_generate_key(alice)) goto err;
-    apublen = sizeof(alice->pub->pu);
-    if (single) BIO_printf(out, "\tpub_A (%i bytes) = ", (int) apublen);
-    if (apublen < 0)
-    {
-        fprintf(stderr, "Error in NEWHOPE routines");
-        ret = 0;
-        goto err;
-    }
-    if (single)
-    {
-        for (i = 0; i < apublen; i++)
-        {
-            BIO_printf(out, "%02X", alice->pk[i]);
-        }
-        BIO_puts(out, "\n");
-    }
+    /* Get Bob's public key from alice key pair */
+    if (!TEST_ptr(bob = NEWHOPE_PAIR_get_publickey(alice))) goto err;
 
-    if ((bobp = NEWHOPE_PAIR_get_publickey(bob)) == NULL) goto err;
-    bpublen = sizeof(bob->pub->pu);
-    if (single)
-    {
-        BIO_printf(out, "\n\t pub_B (%i bytes) = ", (int) bpublen);
-        for (i = 0; i < bpublen; i++)
-        {
-            BIO_printf(out, "%02X", bobp->pu[i]);
-        }
-        BIO_puts(out, "\n");
-    }
-
-    if (single) BIO_puts(out, "Testing Bob shared secret generation\n");
-
+    /* Generate the ciphertext and the shared secret from the public key */
     bsslen = KDF_SHA1_len;
-    bssbuf = (unsigned char *)OPENSSL_malloc(bsslen);
-    bsslen = NEWHOPE_compute_key_bob(bssbuf, bsslen, bob, ct, KDF1_SHA1);
+    if (!TEST_ptr(bssbuf = (unsigned char *)OPENSSL_malloc(bsslen * sizeof(unsigned char)))) goto err;
+    if (!TEST_int_eq(bsslen = NEWHOPE_compute_key_bob(bssbuf, bsslen, bob, ct, KDF1_SHA1), 128)) goto err;
 
-    if (single) BIO_puts(out, "Testing Alice shared secret generation\n");
+    /* Generate the shared secret for alice, using its private key and the ciphertext */
     asslen = KDF_SHA1_len;
-    asslen = NEWHOPE_compute_key_alice(assbuf, asslen, ct, alice, KDF1_SHA1);
+    if (!TEST_ptr(assbuf = (unsigned char *)OPENSSL_malloc(asslen * sizeof(unsigned char)))) goto err;
+    if (!TEST_int_eq(asslen = NEWHOPE_compute_key_alice(assbuf, asslen, ct, alice, KDF1_SHA1), 128)) goto err;
+    if (!TEST_int_eq(asslen, bsslen)) goto err;
 
-    if (single)
-    {
-        BIO_printf(out, "\t key_A (%i bytes) = ", (int) asslen);
-        for (i = 0; i < asslen; i++)
-        {
-            BIO_printf(out, "%02X", assbuf[i]);
-        }
-        BIO_puts(out, "\n");
-    }
-
-    if (bsslen != asslen)
-    {
-        BIO_printf(out, " failed\n\n");
-        fprintf(stderr, "Error un NEWHOPE routines (mismatched shared secrets) \n");
-        ret = 0;
-    }
-    else
-    {
-        if (single) BIO_printf(out, "ok!\n");
-        ret = 1;
-    }
-
+    ret = 1;
 err:
-    ERR_print_errors_fp(stderr);
-
     OPENSSL_free(bssbuf);
     OPENSSL_free(assbuf);
     OPENSSL_free(apubbuf);
@@ -143,7 +87,7 @@ err:
     return (ret);
 }
 
-int setup_test(void)
+int setup_tests(void)
 {
 #ifdef OPENSSL_NO_NEWHOPE
     TEST_note("No NEWHOPE support");

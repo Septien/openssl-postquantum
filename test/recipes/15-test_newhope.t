@@ -2,3 +2,4 @@
 
 use OpenSSL::Test::Simple
 
+simple_test("test_newhope", "newhopetest", "newhope");

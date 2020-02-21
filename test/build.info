@@ -59,7 +59,7 @@ IF[{- !$disabled{tests} -}]
           servername_test ocspapitest rsa_mp_test fatalerrtest tls13ccstest \
           sysdefaulttest errtest ssl_ctx_test gosttest \
           context_internal_test aesgcmtest params_test evp_pkey_dparams_test \
-          keymgmt_internal_test
+          keymgmt_internal_test newhopetest
 
   SOURCE[confdump]=confdump.c
   INCLUDE[confdump]=../include ../apps/include
@@ -611,6 +611,11 @@ IF[{- !$disabled{tests} -}]
     SOURCE[keymgmt_internal_test]=keymgmt_internal_test.c
     INCLUDE[keymgmt_internal_test]=.. ../include ../apps/include
     DEPEND[keymgmt_internal_test]=../libcrypto.a libtestutil.a
+
+    # Test files for the newhope script
+    SOURCE[newhopetest]=newhopetest.c
+    INCLUDE[newhopetest]=.. ../include ../apps/include
+    DEPEND[newhopetest]=../libcrypto.a libtestutil.a
   ENDIF
 
   IF[{- !$disabled{mdc2} -}]
