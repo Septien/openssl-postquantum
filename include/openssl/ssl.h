@@ -88,7 +88,9 @@ extern "C" {
 # define SSL_TXT_kDHEPSK         "kDHEPSK"
 # define SSL_TXT_kGOST           "kGOST"
 # define SSL_TXT_kSRP            "kSRP"
-#define SSL_TXT_kNEWHOPE         "kNEWHOPE"
+# define SSL_TXT_kNEWHOPE        "kNEWHOPE"
+# define SSL_TXT_kROUND5         "kROUND5"
+# define SSL_TXT_kFRODOKEM       "kFRODOKEM"
 
 # define SSL_TXT_aRSA            "aRSA"
 # define SSL_TXT_aDSS            "aDSS"
@@ -153,6 +155,8 @@ extern "C" {
 # define SSL_TXT_TLSV1_1         "TLSv1.1"
 # define SSL_TXT_TLSV1_2         "TLSv1.2"
 # define SSL_TXT_NEWHOPE         "NEWHOPE"
+# define SSL_TXT_ROUND5          "ROUND5"
+# define SSL_TXT_FRODOKEM        "FRODOKEM"
 
 # define SSL_TXT_ALL             "ALL"
 

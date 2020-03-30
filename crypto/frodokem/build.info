@@ -1,0 +1,3 @@
+LIBS=../../libcrypto
+SOURCE[../../libcrpyto]=\
+        frodo640.c frodokem_kex.c frodokem_key.c frodo_macrify.c noise.c util.c aes/aes.c aes/aes_ni.c aes/aes_c.c random/random.c

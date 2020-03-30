@@ -113,6 +113,8 @@ struct err_state_st {
 # define ERR_LIB_PROV            57
 # define ERR_LIB_CMP             58
 # define ERR_LIB_NEWHOPE         59
+# define ERR_LIB_ROUND5          60
+# define ERR_LIB_FRODOKEM        61
 
 # define ERR_LIB_USER            128
 
@@ -160,6 +162,8 @@ struct err_state_st {
 #  define X509V3err(f, r) ERR_raise_data(ERR_LIB_X509V3, (r), NULL)
 #  define X509err(f, r) ERR_raise_data(ERR_LIB_X509, (r), NULL)
 #  define NEWHOPEerr(f, r) ERR_raise_data(ERR_LIB_NEWHOPE, (r), NULL)
+#  define ROUND5err(f, r) ERR_raise_data(ERR_LIB_ROUND5, (r), NULL)
+#  define FRODOKEMerr(f, r) ERR_raise_data(ERR_LIB_FRODOKEM, (r), NULL)
 # endif
 
 # define ERR_PACK(l,f,r) ( \

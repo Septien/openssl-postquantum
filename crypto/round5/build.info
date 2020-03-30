@@ -1,0 +1,7 @@
+LIBS=../../libcrypto
+SOURCE[../../libcrypto])=\
+        aesdrbg.c a_fixed.c a_random.c keccakf1600.c little_endian.c matmul_avx2.c \
+        matmul.c matmul_ct.c misc.c pack.c pke.c r5_cca_kem.c r5_cca_pke.c r5_cpa_kem.c \
+        r5_cpa_pke_n1.c r5_cpa_pke_nd.c r5_dem.c r5_hash.c r5_memory.c r5_secretkeygen.c \
+        ringmul_avx2.c ringmul.c ringmul_cm.c ringmul_ct.c round5_kex.c round5_key.c \
+        shaking.c xe2_c16.c xe4_c64.c xe5_c64.c xef_ref.c rng/true_rng.c

@@ -18,19 +18,24 @@ our %config = (
     "ARFLAGS" => [
         "r"
     ],
-    "CC" => "cc",
+    "CC" => "gcc",
     "CFLAGS" => [
-        "-O3 -Wall"
+        "-Wall -O3"
     ],
     "CPPDEFINES" => [],
     "CPPFLAGS" => [],
     "CPPINCLUDES" => [],
-    "CXXFLAGS" => [],
+    "CXX" => "g++",
+    "CXXFLAGS" => [
+        "-Wall -O3"
+    ],
     "HASHBANGPERL" => "/usr/bin/env perl",
     "LDFLAGS" => [],
-    "LDLIBS" => [],
-    "PERL" => "/usr/local/Cellar/perl/5.30.1/bin/perl",
-    "RANLIB" => "ranlib -c",
+    "LDLIBS" => [
+        "-lm"
+    ],
+    "PERL" => "/usr/bin/perl",
+    "RANLIB" => "ranlib",
     "RC" => "windres",
     "RCFLAGS" => [],
     "afalgeng" => "",
@@ -118,7 +123,6 @@ our %config = (
         "crypto/ess/build.info",
         "crypto/crmf/build.info",
         "crypto/cmp/build.info",
-        "crypto/newhope/build.info",
         "apps/lib/build.info",
         "test/ossl_shim/build.info",
         "providers/common/build.info",
@@ -138,7 +142,9 @@ our %config = (
     "build_metadata" => "",
     "build_type" => "release",
     "builddir" => ".",
-    "cflags" => [],
+    "cflags" => [
+        "-Wa,--noexecstack"
+    ],
     "conf_files" => [
         "Configurations/00-base-templates.conf",
         "Configurations/10-main.conf"
@@ -149,6 +155,9 @@ our %config = (
         "NDEBUG"
     ],
     "dynamic_engines" => "1",
+    "engdirs" => [
+        "afalg"
+    ],
     "ex_libs" => [],
     "full_version" => "3.0.0-dev",
     "includes" => [],
@@ -158,7 +167,7 @@ our %config = (
     ],
     "libdir" => "",
     "major" => "3",
-    "makedepprog" => "\$(CROSS_COMPILE)cc",
+    "makedepprog" => "\$(CROSS_COMPILE)gcc",
     "minor" => "0",
     "openssl_api_defines" => [
         "OPENSSL_CONFIGURED_API=30000"
@@ -172,12 +181,15 @@ our %config = (
         "OPENSSL_NO_EC_NISTP_64_GCC_128",
         "OPENSSL_NO_EGD",
         "OPENSSL_NO_EXTERNAL_TESTS",
+        "OPENSSL_NO_FRODOKEM",
         "OPENSSL_NO_FUZZ_AFL",
         "OPENSSL_NO_FUZZ_LIBFUZZER",
         "OPENSSL_NO_KTLS",
         "OPENSSL_NO_MD2",
         "OPENSSL_NO_MSAN",
+        "OPENSSL_NO_NEWHOPE",
         "OPENSSL_NO_RC5",
+        "OPENSSL_NO_ROUND5",
         "OPENSSL_NO_SCTP",
         "OPENSSL_NO_SSL_TRACE",
         "OPENSSL_NO_SSL3",
@@ -188,61 +200,47 @@ our %config = (
         "OPENSSL_NO_UPLINK",
         "OPENSSL_NO_WEAK_SSL_CIPHERS",
         "OPENSSL_THREADS",
-        "OPENSSL_NO_STATIC_ENGINE",
-        "OPENSSL_NO_AFALGENG"
+        "OPENSSL_NO_STATIC_ENGINE"
     ],
     "openssl_other_defines" => [
         "OPENSSL_NO_KTLS"
     ],
-    "openssl_sys_defines" => [
-        "OPENSSL_SYS_MACOSX"
-    ],
-    "openssldir" => "/Users/jash/Documents/Maestria/openssl_postquantum",
-    "options" => "enable-newhope --openssldir=/Users/jash/Documents/Maestria/openssl_postquantum no-asan no-buildtest-c++ no-crypto-mdebug no-crypto-mdebug-backtrace no-devcryptoeng no-ec_nistp_64_gcc_128 no-egd no-external-tests no-fuzz-afl no-fuzz-libfuzzer no-ktls no-md2 no-msan no-rc5 no-sctp no-ssl-trace no-ssl3 no-ssl3-method no-trace no-ubsan no-unit-test no-uplink no-weak-ssl-ciphers no-zlib no-zlib-dynamic",
+    "openssl_sys_defines" => [],
+    "openssldir" => "",
+    "options" => "-lm no-asan no-buildtest-c++ no-crypto-mdebug no-crypto-mdebug-backtrace no-devcryptoeng no-ec_nistp_64_gcc_128 no-egd no-external-tests no-frodokem no-fuzz-afl no-fuzz-libfuzzer no-ktls no-md2 no-msan no-newhope no-rc5 no-round5 no-sctp no-ssl-trace no-ssl3 no-ssl3-method no-trace no-ubsan no-unit-test no-uplink no-weak-ssl-ciphers no-zlib no-zlib-dynamic",
     "patch" => "0",
-    "perl_archname" => "darwin-thread-multi-2level",
-    "perl_cmd" => "/usr/local/Cellar/perl/5.30.1/bin/perl",
-    "perl_version" => "5.30.1",
+    "perl_archname" => "x86_64-linux-gnu-thread-multi",
+    "perl_cmd" => "/usr/bin/perl",
+    "perl_version" => "5.26.1",
     "perlargv" => [
-        "darwin64-x86_64-cc",
-        "enable-newhope",
-        "--openssldir=/Users/jash/Documents/Maestria/openssl_postquantum"
+        "linux-x86_64",
+        "-lm"
     ],
     "perlenv" => {
         "AR" => undef,
-        "ARFLAGS" => undef,
-        "AS" => undef,
-        "ASFLAGS" => undef,
         "BUILDFILE" => undef,
         "CC" => undef,
         "CFLAGS" => undef,
-        "CPP" => undef,
-        "CPPDEFINES" => undef,
         "CPPFLAGS" => undef,
-        "CPPINCLUDES" => undef,
         "CROSS_COMPILE" => undef,
         "CXX" => undef,
         "CXXFLAGS" => undef,
         "HASHBANGPERL" => undef,
-        "LD" => undef,
         "LDFLAGS" => undef,
         "LDLIBS" => undef,
-        "MT" => undef,
-        "MTFLAGS" => undef,
         "OPENSSL_LOCAL_CONFIG_DIR" => undef,
         "PERL" => undef,
         "RANLIB" => undef,
         "RC" => undef,
         "RCFLAGS" => undef,
-        "RM" => undef,
         "WINDRES" => undef,
-        "__CNF_CFLAGS" => "",
-        "__CNF_CPPDEFINES" => "",
-        "__CNF_CPPFLAGS" => "",
-        "__CNF_CPPINCLUDES" => "",
-        "__CNF_CXXFLAGS" => "",
-        "__CNF_LDFLAGS" => "",
-        "__CNF_LDLIBS" => ""
+        "__CNF_CFLAGS" => undef,
+        "__CNF_CPPDEFINES" => undef,
+        "__CNF_CPPFLAGS" => undef,
+        "__CNF_CPPINCLUDES" => undef,
+        "__CNF_CXXFLAGS" => undef,
+        "__CNF_LDFLAGS" => undef,
+        "__CNF_LDLIBS" => undef
     },
     "prefix" => "",
     "prerelease" => "-dev",
@@ -251,20 +249,23 @@ our %config = (
     "release_date" => "xx XXX xxxx",
     "shlib_version" => "3",
     "sourcedir" => ".",
-    "target" => "darwin64-x86_64-cc",
+    "target" => "linux-x86_64",
     "version" => "3.0.0"
 );
 our %target = (
     "AR" => "ar",
     "ARFLAGS" => "r",
-    "CC" => "cc",
-    "CFLAGS" => "-O3 -Wall",
+    "CC" => "gcc",
+    "CFLAGS" => "-Wall -O3",
+    "CXX" => "g++",
+    "CXXFLAGS" => "-Wall -O3",
     "HASHBANGPERL" => "/usr/bin/env perl",
-    "RANLIB" => "ranlib -c",
+    "RANLIB" => "ranlib",
     "RC" => "windres",
     "_conf_fname_int" => [
         "Configurations/00-base-templates.conf",
         "Configurations/00-base-templates.conf",
+        "Configurations/10-main.conf",
         "Configurations/10-main.conf",
         "Configurations/10-main.conf",
         "Configurations/shared-info.pl"
@@ -276,30 +277,35 @@ our %target = (
         "unified",
         "unix"
     ],
-    "cflags" => "-arch x86_64",
-    "cppflags" => "-D_REENTRANT",
+    "cflags" => "-pthread -m64",
+    "cppflags" => "",
+    "cxxflags" => "-std=c++11 -pthread -m64",
     "defines" => [],
     "disable" => [],
+    "dso_ldflags" => "-z defs",
     "dso_scheme" => "dlfcn",
-    "enable" => [],
+    "enable" => [
+        "afalgeng"
+    ],
+    "ex_libs" => "-ldl -pthread",
     "includes" => [],
-    "lflags" => "-Wl,-search_paths_first",
+    "lflags" => "",
     "lib_cflags" => "",
-    "lib_cppflags" => "-DL_ENDIAN",
+    "lib_cppflags" => "-DOPENSSL_USE_NODELETE -DL_ENDIAN",
     "lib_defines" => [],
     "module_cflags" => "-fPIC",
     "module_cxxflags" => undef,
-    "module_ldflags" => "-bundle",
+    "module_ldflags" => "-Wl,-znodelete -shared -Wl,-Bsymbolic",
+    "multilib" => "64",
     "perl_platform" => "Unix",
-    "perlasm_scheme" => "macosx",
+    "perlasm_scheme" => "elf",
     "shared_cflag" => "-fPIC",
+    "shared_defflag" => "-Wl,--version-script=",
     "shared_defines" => [],
-    "shared_extension" => ".\$(SHLIB_VERSION_NUMBER).dylib",
-    "shared_ldflag" => "-dynamiclib -current_version \$(SHLIB_VERSION_NUMBER) -compatibility_version \$(SHLIB_VERSION_NUMBER)",
+    "shared_ldflag" => "-Wl,-znodelete -shared -Wl,-Bsymbolic",
     "shared_rcflag" => "",
-    "shared_sonameflag" => "-install_name \$(INSTALLTOP)/\$(LIBDIR)/",
-    "shared_target" => "darwin-shared",
-    "sys_id" => "MACOSX",
+    "shared_sonameflag" => "-Wl,-soname=",
+    "shared_target" => "linux-shared",
     "template" => "1",
     "thread_defines" => [],
     "thread_scheme" => "pthreads",
@@ -349,6 +355,7 @@ our @disablables = (
     "external-tests",
     "filenames",
     "fips",
+    "frodokem",
     "fuzz-libfuzzer",
     "fuzz-afl",
     "gost",
@@ -377,6 +384,7 @@ our @disablables = (
     "rdrand",
     "rfc3779",
     "rmd160",
+    "round5",
     "scrypt",
     "sctp",
     "seed",
@@ -425,7 +433,6 @@ our @disablables_int = (
     "crmf"
 );
 our %disabled = (
-    "afalgeng" => "not-linux",
     "asan" => "default",
     "buildtest-c++" => "default",
     "crypto-mdebug" => "default",
@@ -434,12 +441,15 @@ our %disabled = (
     "ec_nistp_64_gcc_128" => "default",
     "egd" => "default",
     "external-tests" => "default",
+    "frodokem" => "default",
     "fuzz-afl" => "default",
     "fuzz-libfuzzer" => "default",
     "ktls" => "default",
     "md2" => "default",
     "msan" => "default",
+    "newhope" => "default",
     "rc5" => "default",
+    "round5" => "default",
     "sctp" => "default",
     "ssl-trace" => "default",
     "ssl3" => "default",
@@ -495,6 +505,9 @@ our %unified_info = (
             }
         },
         "modules" => {
+            "engines/afalg" => {
+                "engine" => "1"
+            },
             "engines/capi" => {
                 "engine" => "1"
             },
@@ -737,9 +750,6 @@ our %unified_info = (
                 "noinst" => "1"
             },
             "test/buildtest_c_modes" => {
-                "noinst" => "1"
-            },
-            "test/buildtest_c_newhope" => {
                 "noinst" => "1"
             },
             "test/buildtest_c_obj_mac" => {
@@ -1022,6 +1032,9 @@ our %unified_info = (
                 "noinst" => "1"
             },
             "test/namemap_internal_test" => {
+                "noinst" => "1"
+            },
+            "test/newhopetest" => {
                 "noinst" => "1"
             },
             "test/ocspapitest" => {
@@ -1498,6 +1511,9 @@ our %unified_info = (
         "doc/man1/openssl-x509.pod" => [
             "doc/perlvars.pm"
         ],
+        "engines/afalg" => [
+            "libcrypto"
+        ],
         "engines/capi" => [
             "libcrypto"
         ],
@@ -1824,10 +1840,6 @@ our %unified_info = (
             "libssl"
         ],
         "test/buildtest_c_modes" => [
-            "libcrypto",
-            "libssl"
-        ],
-        "test/buildtest_c_newhope" => [
             "libcrypto",
             "libssl"
         ],
@@ -2218,6 +2230,10 @@ our %unified_info = (
             "libcrypto.a",
             "test/libtestutil.a"
         ],
+        "test/newhopetest" => [
+            "libcrypto.a",
+            "test/libtestutil.a"
+        ],
         "test/ocspapitest" => [
             "libcrypto",
             "test/libtestutil.a"
@@ -2474,7 +2490,6 @@ our %unified_info = (
         },
         "apps/lib" => {
             "deps" => [
-                "apps/lib/uitest-bin-apps_ui.o",
                 "apps/lib/libapps-lib-app_params.o",
                 "apps/lib/libapps-lib-app_rand.o",
                 "apps/lib/libapps-lib-apps.o",
@@ -2487,7 +2502,8 @@ our %unified_info = (
                 "apps/lib/libapps-lib-s_cb.o",
                 "apps/lib/libapps-lib-s_socket.o",
                 "apps/lib/libtestutil-lib-bf_prefix.o",
-                "apps/lib/libtestutil-lib-opt.o"
+                "apps/lib/libtestutil-lib-opt.o",
+                "apps/lib/uitest-bin-apps_ui.o"
             ],
             "products" => {
                 "bin" => [
@@ -2501,7 +2517,6 @@ our %unified_info = (
         },
         "crypto" => {
             "deps" => [
-                "crypto/tls13secretstest-bin-packet.o",
                 "crypto/libcrypto-lib-asn1_dsa.o",
                 "crypto/libcrypto-lib-bsearch.o",
                 "crypto/libcrypto-lib-context.o",
@@ -2605,7 +2620,8 @@ our %unified_info = (
                 "crypto/libfips-lib-threads_none.o",
                 "crypto/libfips-lib-threads_pthread.o",
                 "crypto/libfips-lib-threads_win.o",
-                "crypto/libfips-lib-x86_64cpuid.o"
+                "crypto/libfips-lib-x86_64cpuid.o",
+                "crypto/tls13secretstest-bin-packet.o"
             ],
             "products" => {
                 "bin" => [
@@ -3967,39 +3983,6 @@ our %unified_info = (
                 ]
             }
         },
-        "crypto/newhope" => {
-            "deps" => [
-                "crypto/newhope/libcrypto-lib-cpapke.o",
-                "crypto/newhope/libcrypto-lib-fips202.o",
-                "crypto/newhope/libcrypto-lib-newhope.o",
-                "crypto/newhope/libcrypto-lib-newhope_err.o",
-                "crypto/newhope/libcrypto-lib-newhope_kex.o",
-                "crypto/newhope/libcrypto-lib-newhope_key.o",
-                "crypto/newhope/libcrypto-lib-ntt.o",
-                "crypto/newhope/libcrypto-lib-poly.o",
-                "crypto/newhope/libcrypto-lib-precomp.o",
-                "crypto/newhope/libcrypto-lib-reduce.o",
-                "crypto/newhope/libcrypto-lib-rng.o",
-                "crypto/newhope/libcrypto-lib-verify.o",
-                "crypto/newhope/libcrypto-shlib-cpapke.o",
-                "crypto/newhope/libcrypto-shlib-fips202.o",
-                "crypto/newhope/libcrypto-shlib-newhope.o",
-                "crypto/newhope/libcrypto-shlib-newhope_err.o",
-                "crypto/newhope/libcrypto-shlib-newhope_kex.o",
-                "crypto/newhope/libcrypto-shlib-newhope_key.o",
-                "crypto/newhope/libcrypto-shlib-ntt.o",
-                "crypto/newhope/libcrypto-shlib-poly.o",
-                "crypto/newhope/libcrypto-shlib-precomp.o",
-                "crypto/newhope/libcrypto-shlib-reduce.o",
-                "crypto/newhope/libcrypto-shlib-rng.o",
-                "crypto/newhope/libcrypto-shlib-verify.o"
-            ],
-            "products" => {
-                "lib" => [
-                    "libcrypto"
-                ]
-            }
-        },
         "crypto/objects" => {
             "deps" => [
                 "crypto/objects/libcrypto-lib-o_names.o",
@@ -4728,6 +4711,7 @@ our %unified_info = (
         "engines" => {
             "products" => {
                 "dso" => [
+                    "engines/afalg",
                     "engines/capi",
                     "engines/dasync",
                     "engines/ossltest",
@@ -4763,6 +4747,7 @@ our %unified_info = (
             ],
             "products" => {
                 "dso" => [
+                    "providers/fips",
                     "providers/legacy"
                 ],
                 "lib" => [
@@ -4992,7 +4977,6 @@ our %unified_info = (
         },
         "ssl" => {
             "deps" => [
-                "ssl/tls13secretstest-bin-tls13_enc.o",
                 "ssl/libssl-lib-bio_ssl.o",
                 "ssl/libssl-lib-d1_lib.o",
                 "ssl/libssl-lib-d1_msg.o",
@@ -5048,7 +5032,8 @@ our %unified_info = (
                 "ssl/libssl-shlib-t1_lib.o",
                 "ssl/libssl-shlib-t1_trce.o",
                 "ssl/libssl-shlib-tls13_enc.o",
-                "ssl/libssl-shlib-tls_srp.o"
+                "ssl/libssl-shlib-tls_srp.o",
+                "ssl/tls13secretstest-bin-tls13_enc.o"
             ],
             "products" => {
                 "bin" => [
@@ -5766,11 +5751,26 @@ our %unified_info = (
         "doc/man7/openssl_user_macros.pod" => [
             "doc/man7/openssl_user_macros.pod.in"
         ],
+        "engines/afalg.ld" => [
+            "util/engines.num"
+        ],
+        "engines/capi.ld" => [
+            "util/engines.num"
+        ],
+        "engines/dasync.ld" => [
+            "util/engines.num"
+        ],
         "engines/e_padlock-x86.s" => [
             "engines/asm/e_padlock-x86.pl"
         ],
         "engines/e_padlock-x86_64.s" => [
             "engines/asm/e_padlock-x86_64.pl"
+        ],
+        "engines/ossltest.ld" => [
+            "util/engines.num"
+        ],
+        "engines/padlock.ld" => [
+            "util/engines.num"
         ],
         "include/crypto/bn_conf.h" => [
             "include/crypto/bn_conf.h.in"
@@ -5783,6 +5783,20 @@ our %unified_info = (
         ],
         "include/openssl/opensslv.h" => [
             "include/openssl/opensslv.h.in"
+        ],
+        "libcrypto.ld" => [
+            "util/libcrypto.num",
+            "libcrypto"
+        ],
+        "libssl.ld" => [
+            "util/libssl.num",
+            "libssl"
+        ],
+        "providers/fips.ld" => [
+            "util/providers.num"
+        ],
+        "providers/legacy.ld" => [
+            "util/providers.num"
         ],
         "test/buildtest_aes.c" => [
             "test/generate_buildtest.pl",
@@ -5964,10 +5978,6 @@ our %unified_info = (
             "test/generate_buildtest.pl",
             "modes"
         ],
-        "test/buildtest_newhope.c" => [
-            "test/generate_buildtest.pl",
-            "newhope"
-        ],
         "test/buildtest_obj_mac.c" => [
             "test/generate_buildtest.pl",
             "obj_mac"
@@ -6111,6 +6121,9 @@ our %unified_info = (
         "test/buildtest_x509v3.c" => [
             "test/generate_buildtest.pl",
             "x509v3"
+        ],
+        "test/p_test.ld" => [
+            "util/providers.num"
         ],
         "test/provider_internal_test.conf" => [
             "test/provider_internal_test.conf.in"
@@ -6607,6 +6620,9 @@ our %unified_info = (
         "doc/man1/openssl-x509.pod" => [
             "doc"
         ],
+        "engines/afalg" => [
+            "include"
+        ],
         "engines/capi" => [
             "include"
         ],
@@ -6921,9 +6937,6 @@ our %unified_info = (
             "include"
         ],
         "test/buildtest_c_modes" => [
-            "include"
-        ],
-        "test/buildtest_c_newhope" => [
             "include"
         ],
         "test/buildtest_c_obj_mac" => [
@@ -7341,6 +7354,11 @@ our %unified_info = (
             "include",
             "apps/include"
         ],
+        "test/newhopetest" => [
+            ".",
+            "include",
+            "apps/include"
+        ],
         "test/ocspapitest" => [
             "include",
             "apps/include"
@@ -7655,6 +7673,7 @@ our %unified_info = (
         "test/libtestutil.a"
     ],
     "modules" => [
+        "engines/afalg",
         "engines/capi",
         "engines/dasync",
         "engines/ossltest",
@@ -7740,7 +7759,6 @@ our %unified_info = (
         "test/buildtest_c_md5",
         "test/buildtest_c_mdc2",
         "test/buildtest_c_modes",
-        "test/buildtest_c_newhope",
         "test/buildtest_c_obj_mac",
         "test/buildtest_c_objects",
         "test/buildtest_c_ocsp",
@@ -7835,6 +7853,7 @@ our %unified_info = (
         "test/memleaktest",
         "test/modes_internal_test",
         "test/namemap_internal_test",
+        "test/newhopetest",
         "test/ocspapitest",
         "test/packettest",
         "test/param_build_test",
@@ -8382,18 +8401,6 @@ our %unified_info = (
             "crypto/modes/libcrypto-shlib-siv128.o",
             "crypto/modes/libcrypto-shlib-wrap128.o",
             "crypto/modes/libcrypto-shlib-xts128.o",
-            "crypto/newhope/libcrypto-shlib-cpapke.o",
-            "crypto/newhope/libcrypto-shlib-fips202.o",
-            "crypto/newhope/libcrypto-shlib-newhope.o",
-            "crypto/newhope/libcrypto-shlib-newhope_err.o",
-            "crypto/newhope/libcrypto-shlib-newhope_kex.o",
-            "crypto/newhope/libcrypto-shlib-newhope_key.o",
-            "crypto/newhope/libcrypto-shlib-ntt.o",
-            "crypto/newhope/libcrypto-shlib-poly.o",
-            "crypto/newhope/libcrypto-shlib-precomp.o",
-            "crypto/newhope/libcrypto-shlib-reduce.o",
-            "crypto/newhope/libcrypto-shlib-rng.o",
-            "crypto/newhope/libcrypto-shlib-verify.o",
             "crypto/objects/libcrypto-shlib-o_names.o",
             "crypto/objects/libcrypto-shlib-obj_dat.o",
             "crypto/objects/libcrypto-shlib-obj_err.o",
@@ -8625,6 +8632,7 @@ our %unified_info = (
             "crypto/x509/libcrypto-shlib-x_req.o",
             "crypto/x509/libcrypto-shlib-x_x509.o",
             "crypto/x509/libcrypto-shlib-x_x509a.o",
+            "libcrypto.ld",
             "providers/implementations/asymciphers/libcrypto-shlib-rsa_enc.o",
             "providers/libcrypto-shlib-defltprov.o",
             "providers/libimplementations.a",
@@ -8632,6 +8640,7 @@ our %unified_info = (
         ],
         "libssl" => [
             "crypto/libssl-shlib-packet.o",
+            "libssl.ld",
             "ssl/libssl-shlib-bio_ssl.o",
             "ssl/libssl-shlib-d1_lib.o",
             "ssl/libssl-shlib-d1_msg.o",
@@ -12224,78 +12233,6 @@ our %unified_info = (
         "crypto/modes/libfips-lib-xts128.o" => [
             "crypto/modes/xts128.c"
         ],
-        "crypto/newhope/libcrypto-lib-cpapke.o" => [
-            "crypto/newhope/cpapke.c"
-        ],
-        "crypto/newhope/libcrypto-lib-fips202.o" => [
-            "crypto/newhope/fips202.c"
-        ],
-        "crypto/newhope/libcrypto-lib-newhope.o" => [
-            "crypto/newhope/newhope.c"
-        ],
-        "crypto/newhope/libcrypto-lib-newhope_err.o" => [
-            "crypto/newhope/newhope_err.c"
-        ],
-        "crypto/newhope/libcrypto-lib-newhope_kex.o" => [
-            "crypto/newhope/newhope_kex.c"
-        ],
-        "crypto/newhope/libcrypto-lib-newhope_key.o" => [
-            "crypto/newhope/newhope_key.c"
-        ],
-        "crypto/newhope/libcrypto-lib-ntt.o" => [
-            "crypto/newhope/ntt.c"
-        ],
-        "crypto/newhope/libcrypto-lib-poly.o" => [
-            "crypto/newhope/poly.c"
-        ],
-        "crypto/newhope/libcrypto-lib-precomp.o" => [
-            "crypto/newhope/precomp.c"
-        ],
-        "crypto/newhope/libcrypto-lib-reduce.o" => [
-            "crypto/newhope/reduce.c"
-        ],
-        "crypto/newhope/libcrypto-lib-rng.o" => [
-            "crypto/newhope/rng.c"
-        ],
-        "crypto/newhope/libcrypto-lib-verify.o" => [
-            "crypto/newhope/verify.c"
-        ],
-        "crypto/newhope/libcrypto-shlib-cpapke.o" => [
-            "crypto/newhope/cpapke.c"
-        ],
-        "crypto/newhope/libcrypto-shlib-fips202.o" => [
-            "crypto/newhope/fips202.c"
-        ],
-        "crypto/newhope/libcrypto-shlib-newhope.o" => [
-            "crypto/newhope/newhope.c"
-        ],
-        "crypto/newhope/libcrypto-shlib-newhope_err.o" => [
-            "crypto/newhope/newhope_err.c"
-        ],
-        "crypto/newhope/libcrypto-shlib-newhope_kex.o" => [
-            "crypto/newhope/newhope_kex.c"
-        ],
-        "crypto/newhope/libcrypto-shlib-newhope_key.o" => [
-            "crypto/newhope/newhope_key.c"
-        ],
-        "crypto/newhope/libcrypto-shlib-ntt.o" => [
-            "crypto/newhope/ntt.c"
-        ],
-        "crypto/newhope/libcrypto-shlib-poly.o" => [
-            "crypto/newhope/poly.c"
-        ],
-        "crypto/newhope/libcrypto-shlib-precomp.o" => [
-            "crypto/newhope/precomp.c"
-        ],
-        "crypto/newhope/libcrypto-shlib-reduce.o" => [
-            "crypto/newhope/reduce.c"
-        ],
-        "crypto/newhope/libcrypto-shlib-rng.o" => [
-            "crypto/newhope/rng.c"
-        ],
-        "crypto/newhope/libcrypto-shlib-verify.o" => [
-            "crypto/newhope/verify.c"
-        ],
         "crypto/objects/libcrypto-lib-o_names.o" => [
             "crypto/objects/o_names.c"
         ],
@@ -13760,27 +13697,38 @@ our %unified_info = (
         "crypto/x509/libcrypto-shlib-x_x509a.o" => [
             "crypto/x509/x_x509a.c"
         ],
+        "engines/afalg" => [
+            "engines/afalg-dso-e_afalg.o",
+            "engines/afalg.ld"
+        ],
+        "engines/afalg-dso-e_afalg.o" => [
+            "engines/e_afalg.c"
+        ],
         "engines/capi" => [
-            "engines/capi-dso-e_capi.o"
+            "engines/capi-dso-e_capi.o",
+            "engines/capi.ld"
         ],
         "engines/capi-dso-e_capi.o" => [
             "engines/e_capi.c"
         ],
         "engines/dasync" => [
-            "engines/dasync-dso-e_dasync.o"
+            "engines/dasync-dso-e_dasync.o",
+            "engines/dasync.ld"
         ],
         "engines/dasync-dso-e_dasync.o" => [
             "engines/e_dasync.c"
         ],
         "engines/ossltest" => [
-            "engines/ossltest-dso-e_ossltest.o"
+            "engines/ossltest-dso-e_ossltest.o",
+            "engines/ossltest.ld"
         ],
         "engines/ossltest-dso-e_ossltest.o" => [
             "engines/e_ossltest.c"
         ],
         "engines/padlock" => [
             "engines/padlock-dso-e_padlock-x86_64.o",
-            "engines/padlock-dso-e_padlock.o"
+            "engines/padlock-dso-e_padlock.o",
+            "engines/padlock.ld"
         ],
         "engines/padlock-dso-e_padlock-x86_64.o" => [
             "engines/e_padlock-x86_64.s"
@@ -14377,18 +14325,6 @@ our %unified_info = (
             "crypto/modes/libcrypto-lib-siv128.o",
             "crypto/modes/libcrypto-lib-wrap128.o",
             "crypto/modes/libcrypto-lib-xts128.o",
-            "crypto/newhope/libcrypto-lib-cpapke.o",
-            "crypto/newhope/libcrypto-lib-fips202.o",
-            "crypto/newhope/libcrypto-lib-newhope.o",
-            "crypto/newhope/libcrypto-lib-newhope_err.o",
-            "crypto/newhope/libcrypto-lib-newhope_kex.o",
-            "crypto/newhope/libcrypto-lib-newhope_key.o",
-            "crypto/newhope/libcrypto-lib-ntt.o",
-            "crypto/newhope/libcrypto-lib-poly.o",
-            "crypto/newhope/libcrypto-lib-precomp.o",
-            "crypto/newhope/libcrypto-lib-reduce.o",
-            "crypto/newhope/libcrypto-lib-rng.o",
-            "crypto/newhope/libcrypto-lib-verify.o",
             "crypto/objects/libcrypto-lib-o_names.o",
             "crypto/objects/libcrypto-lib-obj_dat.o",
             "crypto/objects/libcrypto-lib-obj_err.o",
@@ -14708,6 +14644,7 @@ our %unified_info = (
             "providers/common/provider_util.c"
         ],
         "providers/fips" => [
+            "providers/fips.ld",
             "providers/fips/fips-dso-fipsprov.o",
             "providers/fips/fips-dso-selftest.o"
         ],
@@ -14991,7 +14928,8 @@ our %unified_info = (
             "providers/implementations/signature/dsa.c"
         ],
         "providers/legacy" => [
-            "providers/legacy-dso-legacyprov.o"
+            "providers/legacy-dso-legacyprov.o",
+            "providers/legacy.ld"
         ],
         "providers/legacy-dso-legacyprov.o" => [
             "providers/legacyprov.c"
@@ -15918,12 +15856,6 @@ our %unified_info = (
         "test/buildtest_c_modes-bin-buildtest_modes.o" => [
             "test/buildtest_modes.c"
         ],
-        "test/buildtest_c_newhope" => [
-            "test/buildtest_c_newhope-bin-buildtest_newhope.o"
-        ],
-        "test/buildtest_c_newhope-bin-buildtest_newhope.o" => [
-            "test/buildtest_newhope.c"
-        ],
         "test/buildtest_c_obj_mac" => [
             "test/buildtest_c_obj_mac-bin-buildtest_obj_mac.o"
         ],
@@ -16551,6 +16483,12 @@ our %unified_info = (
         "test/namemap_internal_test-bin-namemap_internal_test.o" => [
             "test/namemap_internal_test.c"
         ],
+        "test/newhopetest" => [
+            "test/newhopetest-bin-newhopetest.o"
+        ],
+        "test/newhopetest-bin-newhopetest.o" => [
+            "test/newhopetest.c"
+        ],
         "test/ocspapitest" => [
             "test/ocspapitest-bin-ocspapitest.o"
         ],
@@ -16558,7 +16496,8 @@ our %unified_info = (
             "test/ocspapitest.c"
         ],
         "test/p_test" => [
-            "test/p_test-dso-p_test.o"
+            "test/p_test-dso-p_test.o",
+            "test/p_test.ld"
         ],
         "test/p_test-dso-p_test.o" => [
             "test/p_test.c"
@@ -17076,6 +17015,9 @@ my %disabled_info = (
     "external-tests" => {
         "macro" => "OPENSSL_NO_EXTERNAL_TESTS"
     },
+    "frodokem" => {
+        "macro" => "OPENSSL_NO_FRODOKEM"
+    },
     "fuzz-afl" => {
         "macro" => "OPENSSL_NO_FUZZ_AFL"
     },
@@ -17094,11 +17036,20 @@ my %disabled_info = (
     "msan" => {
         "macro" => "OPENSSL_NO_MSAN"
     },
+    "newhope" => {
+        "macro" => "OPENSSL_NO_NEWHOPE",
+        "skipped" => [
+            "crypto/newhope"
+        ]
+    },
     "rc5" => {
         "macro" => "OPENSSL_NO_RC5",
         "skipped" => [
             "crypto/rc5"
         ]
+    },
+    "round5" => {
+        "macro" => "OPENSSL_NO_ROUND5"
     },
     "sctp" => {
         "macro" => "OPENSSL_NO_SCTP"
@@ -17142,16 +17093,16 @@ unless (caller) {
     if (scalar @ARGV == 0) {
         # With no arguments, re-create the build file
 
-        use lib '/Users/jash/Documents/Maestria/Tesis/openssl-postquantum/util/perl';
-        use OpenSSL::fallback '/Users/jash/Documents/Maestria/Tesis/openssl-postquantum/external/perl/MODULES.txt';
+        use lib '/home/phantom/Documentos/Maestria/Tesis/openssl-postquantum/util/perl';
+        use OpenSSL::fallback '/home/phantom/Documentos/Maestria/Tesis/openssl-postquantum/external/perl/MODULES.txt';
         use OpenSSL::Template;
 
         my $prepend = <<"_____";
 use File::Spec::Functions;
-use lib '/Users/jash/Documents/Maestria/Tesis/openssl-postquantum/util/perl';
+use lib '/home/phantom/Documentos/Maestria/Tesis/openssl-postquantum/util/perl';
 _____
         $prepend .= <<"_____" if defined $target{perl_platform};
-use lib '/Users/jash/Documents/Maestria/Tesis/openssl-postquantum/Configurations';
+use lib '/home/phantom/Documentos/Maestria/Tesis/openssl-postquantum/Configurations';
 use lib '.';
 use platform;
 _____

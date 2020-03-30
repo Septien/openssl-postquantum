@@ -388,6 +388,7 @@ my @disablables = (
     "external-tests",
     "filenames",
     "fips",
+    "frodokem",
     "fuzz-libfuzzer",
     "fuzz-afl",
     "gost",
@@ -416,6 +417,7 @@ my @disablables = (
     "rdrand",
     "rfc3779",
     "rmd160",
+    "round5",
     "scrypt",
     "sctp",
     "seed",
@@ -498,7 +500,9 @@ our %disabled = ( # "what"         => "comment"
                   "zlib"                => "default",
                   "zlib-dynamic"        => "default",
                   "ktls"                => "default",
-                  "newhope"             => "default"
+                  "newhope"             => "default",
+                  "frodokem"            => "default",
+                  "round5"              => "default"
                 );
 
 # Note: => pair form used for aesthetics, not to truly make a hash table

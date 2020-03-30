@@ -230,6 +230,8 @@ static const SSL_CIPHER cipher_aliases[] = {
     {0, SSL_TXT_kSRP, NULL, 0, SSL_kSRP},
     {0, SSL_TXT_kGOST, NULL, 0, SSL_kGOST},
     {0, SSL_TXT_kNEWHOPE, NULL, 0, SSL_kNEWHOPE},
+    {0, SSL_TXT_kROUND5, NULL, 0, SSL_kROUND5},
+    {0, SSL_TXT_kFRODOKEM, NULL, 0, SSL_kFRODOKEM},
 
     /* server authentication aliases */
     {0, SSL_TXT_aRSA, NULL, 0, 0, SSL_aRSA},
@@ -256,6 +258,8 @@ static const SSL_CIPHER cipher_aliases[] = {
     {0, SSL_TXT_PSK, NULL, 0, SSL_PSK},
     {0, SSL_TXT_SRP, NULL, 0, SSL_kSRP},
     {0, SSL_TXT_kNEWHOPE, NULL, 0, ~SSL_aNULL},
+    {0, SSL_TXT_kROUND5, NULL, 0, ~SSL_aNULL},
+    {0, SSL_TXT_kFRODOKEM, NULL, 0, ~SSL_aNULL},
 
     /* symmetric encryption aliases */
     {0, SSL_TXT_3DES, NULL, 0, 0, 0, SSL_3DES},

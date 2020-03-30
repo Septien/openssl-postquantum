@@ -41,6 +41,8 @@ L ESS           include/openssl/ess.h           crypto/ess/ess_err.c
 L PROP          include/internal/property.h     crypto/property/property_err.c
 L PROV          providers/common/include/prov/providercommon.h providers/common/provider_err.c
 L NEWHOPE       include/openssl/newhope.h       crypto/newhope/newhope_err.c
+L ROUND5        include/openssl/round5.h        crypto/round5/round5_err.c
+L FRODOKEM      include/openssl/frodokem.h      crypto/frodokem/frodokem_err.c
 
 # additional header files to be scanned for function names
 L NONE          include/openssl/x509_vfy.h      NONE
