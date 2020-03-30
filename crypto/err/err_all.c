@@ -43,6 +43,8 @@
 #include "internal/propertyerr.h"
 #include "prov/providercommonerr.h"
 #include <openssl/newhopeerr.h>
+#include <openssl/round5err.h>
+#include <openssl/frodokemerr.h>
 
 int err_load_crypto_strings_int(void)
 {
@@ -107,7 +109,13 @@ int err_load_crypto_strings_int(void)
         ERR_load_PROP_strings() == 0 ||
         ERR_load_PROV_strings() == 0 ||
 #ifndef OPENSSL_NO_NEWHOPE
-        ERR_load_NEWHOPE_strings() == 0
+        ERR_load_NEWHOPE_strings() == 0 ||
+#endif
+#ifndef OPENSSL_NO_ROUND5
+        ERR_load_ROUND5_strings() == 0 ||
+#endif
+#ifndef OPENSSL_NO_FRODOKEM
+        ERR_load_FRODOKEM_strings() == 0
 #endif
     )
         return 0;

@@ -110,6 +110,24 @@ CERT *ssl_cert_dup(CERT *cert)
         }
     }
 #endif
+#ifndef OPENSSL_NO_ROUND5
+    if (cert->round5_temp)
+    {
+        ret->round5_temp = ROUND5_PAIR_dup(cert->round5_temp);
+        if (ret->round5_temp == NULL)
+        {
+            SSLerr(SSL_F_SSL_CERT_DUP, ERR_R_ROUND5_LIB);
+            goto err;
+        }
+    }
+#endif
+#ifndef OPENSSL_NO_FRODOKEM
+    if (cert->frodokem_temp)
+    {
+        ret->frodokem_temp = FRODOKEM_PAIR_dup(cert->frodokem_temp);
+        goto err;
+    }
+#endif
 
     for (i = 0; i < SSL_PKEY_NUM; i++) {
         CERT_PKEY *cpk = cert->pkeys + i;

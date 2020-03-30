@@ -40,6 +40,14 @@
 #include <openssl/newhope.h>
 #endif
 
+#ifndef OPENSSL_NO_ROUND5
+#include <openssl/round5.h>
+#endif
+
+#ifndef OPENSSL_NO_FRODOKEM
+#include <openssl/frodokem.h>
+#endif
+
 # ifdef OPENSSL_BUILD_SHLIBSSL
 #  undef OPENSSL_EXTERN
 #  define OPENSSL_EXTERN OPENSSL_EXPORT
@@ -187,6 +195,9 @@
 
 /* NewHope */
 #define SSL_kNEWHOPE             0x00000101U
+
+#define SSL_kROUND5              0x00000102U
+#define SSL_kFRODOKEM            0x00000103U
 
 /* all PSK */
 
@@ -1916,6 +1927,12 @@ typedef struct cert_st {
 # endif
 #ifndef OPENSSL_NO_NEWHOPE
     NEWHOPE_PAIR *newhope_tmp;
+#endif
+#ifndef OPENSSL_NO_ROUND5
+    ROUND5_PAIR *round5_temp;
+#endif
+#ifndef OPENSSL_NO_FRODOKEM
+    FRODOKEM_PAIR *frodokem_temp;
 #endif
     /* Flags related to certificates */
     uint32_t cert_flags;
