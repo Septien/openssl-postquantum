@@ -12,3 +12,10 @@ fuzz/
 *.ld
 *.pc
 *.3
+*.S
+Makefile
+configdata.pm
+crypto/buildinf.h
+include/crypto/bn_conf.h
+include/crypto/dso_conf.h
+include/openssl/opensslconf.h
