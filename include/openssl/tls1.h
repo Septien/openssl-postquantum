@@ -625,12 +625,12 @@ __owur int SSL_check_chain(SSL *s, X509 *x, EVP_PKEY *pk, STACK_OF(X509) *chain)
 /* Round5 based ciphersuites*/
 # define TLS1_CK_ROUND5_RSA_WITH_AES_128_GCM_SHA256       0x0300D003
 # define TLS1_CK_ROUND5_ECDSA_WITH_AES_128_GCM_SHA256     0X0300D004
-# define TSL1_CK_ROUND5_WITH_AES_128_GCM_SHA256           0x0300D005
+# define TLS1_CK_ROUND5_WITH_AES_128_GCM_SHA256           0x0300D005
 
 /* FrodoKEM based ciphersuites*/
 # define TLS1_CK_FRODOKEM_RSA_WITH_AES_128_GCM_SHA256     0x0300D006
 # define TLS1_CK_FRODOKEM_ECDSA_WITH_AES_128_GCM_SHA256   0X0300D007
-# define TSL1_CK_FRODOKEM_WITH_AES_128_GCM_SHA256         0x0300D008
+# define TLS1_CK_FRODOKEM_WITH_AES_128_GCM_SHA256         0x0300D008
 
 /* a bundle of RFC standard cipher names, generated from ssl3_ciphers[] */
 # define TLS1_RFC_RSA_WITH_AES_128_SHA                   "TLS_RSA_WITH_AES_128_CBC_SHA"

@@ -3247,7 +3247,8 @@ static SSL_CIPHER ssl3_ciphers[] = {
       256,
       256,
     },
-    /* Cipher D0004 */
+    {
+      /* Cipher D0004 */
       1,
       TLS1_TXT_ROUND5_ECDSA_WITH_AES_128_GCM_SHA256,
       TLS1_RFC_ROUND5_ECDSA_WITH_AES_128_GCM_SHA256,
@@ -3300,6 +3301,7 @@ static SSL_CIPHER ssl3_ciphers[] = {
       256,
     },
     /* Cipher D0007 */
+    {
       1,
       TLS1_TXT_FRODOKEM_ECDSA_WITH_AES_128_GCM_SHA256,
       TLS1_RFC_FRODOKEM_ECDSA_WITH_AES_128_GCM_SHA256,

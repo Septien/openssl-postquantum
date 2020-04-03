@@ -1,4 +1,3 @@
-/*c crypto/nround5/round5.h */
 #ifndef HEADER_ROUND5_H
 #define HEADER_ROUND5_H
 
@@ -12,7 +11,7 @@
 #include <openssl/bn.h>
 #include <openssl/err.h>
 #include <openssl/round5err.h>
-#include "round5_locl.h"
+#include "../../crypto/round5/round5_locl.h"
 
 #include <stdio.h>
 

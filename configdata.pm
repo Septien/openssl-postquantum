@@ -31,9 +31,7 @@ our %config = (
     ],
     "HASHBANGPERL" => "/usr/bin/env perl",
     "LDFLAGS" => [],
-    "LDLIBS" => [
-        "-lm"
-    ],
+    "LDLIBS" => [],
     "PERL" => "/usr/bin/perl",
     "RANLIB" => "ranlib",
     "RC" => "windres",
@@ -123,6 +121,7 @@ our %config = (
         "crypto/ess/build.info",
         "crypto/crmf/build.info",
         "crypto/cmp/build.info",
+        "crypto/newhope/build.info",
         "apps/lib/build.info",
         "test/ossl_shim/build.info",
         "providers/common/build.info",
@@ -181,15 +180,12 @@ our %config = (
         "OPENSSL_NO_EC_NISTP_64_GCC_128",
         "OPENSSL_NO_EGD",
         "OPENSSL_NO_EXTERNAL_TESTS",
-        "OPENSSL_NO_FRODOKEM",
         "OPENSSL_NO_FUZZ_AFL",
         "OPENSSL_NO_FUZZ_LIBFUZZER",
         "OPENSSL_NO_KTLS",
         "OPENSSL_NO_MD2",
         "OPENSSL_NO_MSAN",
-        "OPENSSL_NO_NEWHOPE",
         "OPENSSL_NO_RC5",
-        "OPENSSL_NO_ROUND5",
         "OPENSSL_NO_SCTP",
         "OPENSSL_NO_SSL_TRACE",
         "OPENSSL_NO_SSL3",
@@ -207,40 +203,52 @@ our %config = (
     ],
     "openssl_sys_defines" => [],
     "openssldir" => "",
-    "options" => "-lm no-asan no-buildtest-c++ no-crypto-mdebug no-crypto-mdebug-backtrace no-devcryptoeng no-ec_nistp_64_gcc_128 no-egd no-external-tests no-frodokem no-fuzz-afl no-fuzz-libfuzzer no-ktls no-md2 no-msan no-newhope no-rc5 no-round5 no-sctp no-ssl-trace no-ssl3 no-ssl3-method no-trace no-ubsan no-unit-test no-uplink no-weak-ssl-ciphers no-zlib no-zlib-dynamic",
+    "options" => "enable-newhope enable-round5 enable-frodokem no-asan no-buildtest-c++ no-crypto-mdebug no-crypto-mdebug-backtrace no-devcryptoeng no-ec_nistp_64_gcc_128 no-egd no-external-tests no-fuzz-afl no-fuzz-libfuzzer no-ktls no-md2 no-msan no-rc5 no-sctp no-ssl-trace no-ssl3 no-ssl3-method no-trace no-ubsan no-unit-test no-uplink no-weak-ssl-ciphers no-zlib no-zlib-dynamic",
     "patch" => "0",
     "perl_archname" => "x86_64-linux-gnu-thread-multi",
     "perl_cmd" => "/usr/bin/perl",
     "perl_version" => "5.26.1",
     "perlargv" => [
         "linux-x86_64",
-        "-lm"
+        "enable-newhope",
+        "enable-round5",
+        "enable-frodokem"
     ],
     "perlenv" => {
         "AR" => undef,
+        "ARFLAGS" => undef,
+        "AS" => undef,
+        "ASFLAGS" => undef,
         "BUILDFILE" => undef,
         "CC" => undef,
         "CFLAGS" => undef,
+        "CPP" => undef,
+        "CPPDEFINES" => undef,
         "CPPFLAGS" => undef,
+        "CPPINCLUDES" => undef,
         "CROSS_COMPILE" => undef,
         "CXX" => undef,
         "CXXFLAGS" => undef,
         "HASHBANGPERL" => undef,
+        "LD" => undef,
         "LDFLAGS" => undef,
         "LDLIBS" => undef,
+        "MT" => undef,
+        "MTFLAGS" => undef,
         "OPENSSL_LOCAL_CONFIG_DIR" => undef,
         "PERL" => undef,
         "RANLIB" => undef,
         "RC" => undef,
         "RCFLAGS" => undef,
+        "RM" => undef,
         "WINDRES" => undef,
-        "__CNF_CFLAGS" => undef,
-        "__CNF_CPPDEFINES" => undef,
-        "__CNF_CPPFLAGS" => undef,
-        "__CNF_CPPINCLUDES" => undef,
-        "__CNF_CXXFLAGS" => undef,
-        "__CNF_LDFLAGS" => undef,
-        "__CNF_LDLIBS" => undef
+        "__CNF_CFLAGS" => "",
+        "__CNF_CPPDEFINES" => "",
+        "__CNF_CPPFLAGS" => "",
+        "__CNF_CPPINCLUDES" => "",
+        "__CNF_CXXFLAGS" => "",
+        "__CNF_LDFLAGS" => "",
+        "__CNF_LDLIBS" => ""
     },
     "prefix" => "",
     "prerelease" => "-dev",
@@ -441,15 +449,12 @@ our %disabled = (
     "ec_nistp_64_gcc_128" => "default",
     "egd" => "default",
     "external-tests" => "default",
-    "frodokem" => "default",
     "fuzz-afl" => "default",
     "fuzz-libfuzzer" => "default",
     "ktls" => "default",
     "md2" => "default",
     "msan" => "default",
-    "newhope" => "default",
     "rc5" => "default",
-    "round5" => "default",
     "sctp" => "default",
     "ssl-trace" => "default",
     "ssl3" => "default",
@@ -725,6 +730,9 @@ our %unified_info = (
             "test/buildtest_c_fips_names" => {
                 "noinst" => "1"
             },
+            "test/buildtest_c_frodokem" => {
+                "noinst" => "1"
+            },
             "test/buildtest_c_hmac" => {
                 "noinst" => "1"
             },
@@ -750,6 +758,9 @@ our %unified_info = (
                 "noinst" => "1"
             },
             "test/buildtest_c_modes" => {
+                "noinst" => "1"
+            },
+            "test/buildtest_c_newhope" => {
                 "noinst" => "1"
             },
             "test/buildtest_c_obj_mac" => {
@@ -798,6 +809,9 @@ our %unified_info = (
                 "noinst" => "1"
             },
             "test/buildtest_c_ripemd" => {
+                "noinst" => "1"
+            },
+            "test/buildtest_c_round5" => {
                 "noinst" => "1"
             },
             "test/buildtest_c_rsa" => {
@@ -1807,6 +1821,10 @@ our %unified_info = (
             "libcrypto",
             "libssl"
         ],
+        "test/buildtest_c_frodokem" => [
+            "libcrypto",
+            "libssl"
+        ],
         "test/buildtest_c_hmac" => [
             "libcrypto",
             "libssl"
@@ -1840,6 +1858,10 @@ our %unified_info = (
             "libssl"
         ],
         "test/buildtest_c_modes" => [
+            "libcrypto",
+            "libssl"
+        ],
+        "test/buildtest_c_newhope" => [
             "libcrypto",
             "libssl"
         ],
@@ -1904,6 +1926,10 @@ our %unified_info = (
             "libssl"
         ],
         "test/buildtest_c_ripemd" => [
+            "libcrypto",
+            "libssl"
+        ],
+        "test/buildtest_c_round5" => [
             "libcrypto",
             "libssl"
         ],
@@ -3983,6 +4009,39 @@ our %unified_info = (
                 ]
             }
         },
+        "crypto/newhope" => {
+            "deps" => [
+                "crypto/newhope/libcrypto-lib-cpapke.o",
+                "crypto/newhope/libcrypto-lib-fips202.o",
+                "crypto/newhope/libcrypto-lib-newhope.o",
+                "crypto/newhope/libcrypto-lib-newhope_err.o",
+                "crypto/newhope/libcrypto-lib-newhope_kex.o",
+                "crypto/newhope/libcrypto-lib-newhope_key.o",
+                "crypto/newhope/libcrypto-lib-ntt.o",
+                "crypto/newhope/libcrypto-lib-poly.o",
+                "crypto/newhope/libcrypto-lib-precomp.o",
+                "crypto/newhope/libcrypto-lib-reduce.o",
+                "crypto/newhope/libcrypto-lib-rng.o",
+                "crypto/newhope/libcrypto-lib-verify.o",
+                "crypto/newhope/libcrypto-shlib-cpapke.o",
+                "crypto/newhope/libcrypto-shlib-fips202.o",
+                "crypto/newhope/libcrypto-shlib-newhope.o",
+                "crypto/newhope/libcrypto-shlib-newhope_err.o",
+                "crypto/newhope/libcrypto-shlib-newhope_kex.o",
+                "crypto/newhope/libcrypto-shlib-newhope_key.o",
+                "crypto/newhope/libcrypto-shlib-ntt.o",
+                "crypto/newhope/libcrypto-shlib-poly.o",
+                "crypto/newhope/libcrypto-shlib-precomp.o",
+                "crypto/newhope/libcrypto-shlib-reduce.o",
+                "crypto/newhope/libcrypto-shlib-rng.o",
+                "crypto/newhope/libcrypto-shlib-verify.o"
+            ],
+            "products" => {
+                "lib" => [
+                    "libcrypto"
+                ]
+            }
+        },
         "crypto/objects" => {
             "deps" => [
                 "crypto/objects/libcrypto-lib-o_names.o",
@@ -5942,6 +6001,10 @@ our %unified_info = (
             "test/generate_buildtest.pl",
             "fips_names"
         ],
+        "test/buildtest_frodokem.c" => [
+            "test/generate_buildtest.pl",
+            "frodokem"
+        ],
         "test/buildtest_hmac.c" => [
             "test/generate_buildtest.pl",
             "hmac"
@@ -5977,6 +6040,10 @@ our %unified_info = (
         "test/buildtest_modes.c" => [
             "test/generate_buildtest.pl",
             "modes"
+        ],
+        "test/buildtest_newhope.c" => [
+            "test/generate_buildtest.pl",
+            "newhope"
         ],
         "test/buildtest_obj_mac.c" => [
             "test/generate_buildtest.pl",
@@ -6041,6 +6108,10 @@ our %unified_info = (
         "test/buildtest_ripemd.c" => [
             "test/generate_buildtest.pl",
             "ripemd"
+        ],
+        "test/buildtest_round5.c" => [
+            "test/generate_buildtest.pl",
+            "round5"
         ],
         "test/buildtest_rsa.c" => [
             "test/generate_buildtest.pl",
@@ -6912,6 +6983,9 @@ our %unified_info = (
         "test/buildtest_c_fips_names" => [
             "include"
         ],
+        "test/buildtest_c_frodokem" => [
+            "include"
+        ],
         "test/buildtest_c_hmac" => [
             "include"
         ],
@@ -6937,6 +7011,9 @@ our %unified_info = (
             "include"
         ],
         "test/buildtest_c_modes" => [
+            "include"
+        ],
+        "test/buildtest_c_newhope" => [
             "include"
         ],
         "test/buildtest_c_obj_mac" => [
@@ -6985,6 +7062,9 @@ our %unified_info = (
             "include"
         ],
         "test/buildtest_c_ripemd" => [
+            "include"
+        ],
+        "test/buildtest_c_round5" => [
             "include"
         ],
         "test/buildtest_c_rsa" => [
@@ -7750,6 +7830,7 @@ our %unified_info = (
         "test/buildtest_c_ess",
         "test/buildtest_c_evp",
         "test/buildtest_c_fips_names",
+        "test/buildtest_c_frodokem",
         "test/buildtest_c_hmac",
         "test/buildtest_c_idea",
         "test/buildtest_c_kdf",
@@ -7759,6 +7840,7 @@ our %unified_info = (
         "test/buildtest_c_md5",
         "test/buildtest_c_mdc2",
         "test/buildtest_c_modes",
+        "test/buildtest_c_newhope",
         "test/buildtest_c_obj_mac",
         "test/buildtest_c_objects",
         "test/buildtest_c_ocsp",
@@ -7775,6 +7857,7 @@ our %unified_info = (
         "test/buildtest_c_rc2",
         "test/buildtest_c_rc4",
         "test/buildtest_c_ripemd",
+        "test/buildtest_c_round5",
         "test/buildtest_c_rsa",
         "test/buildtest_c_safestack",
         "test/buildtest_c_seed",
@@ -8401,6 +8484,18 @@ our %unified_info = (
             "crypto/modes/libcrypto-shlib-siv128.o",
             "crypto/modes/libcrypto-shlib-wrap128.o",
             "crypto/modes/libcrypto-shlib-xts128.o",
+            "crypto/newhope/libcrypto-shlib-cpapke.o",
+            "crypto/newhope/libcrypto-shlib-fips202.o",
+            "crypto/newhope/libcrypto-shlib-newhope.o",
+            "crypto/newhope/libcrypto-shlib-newhope_err.o",
+            "crypto/newhope/libcrypto-shlib-newhope_kex.o",
+            "crypto/newhope/libcrypto-shlib-newhope_key.o",
+            "crypto/newhope/libcrypto-shlib-ntt.o",
+            "crypto/newhope/libcrypto-shlib-poly.o",
+            "crypto/newhope/libcrypto-shlib-precomp.o",
+            "crypto/newhope/libcrypto-shlib-reduce.o",
+            "crypto/newhope/libcrypto-shlib-rng.o",
+            "crypto/newhope/libcrypto-shlib-verify.o",
             "crypto/objects/libcrypto-shlib-o_names.o",
             "crypto/objects/libcrypto-shlib-obj_dat.o",
             "crypto/objects/libcrypto-shlib-obj_err.o",
@@ -12233,6 +12328,78 @@ our %unified_info = (
         "crypto/modes/libfips-lib-xts128.o" => [
             "crypto/modes/xts128.c"
         ],
+        "crypto/newhope/libcrypto-lib-cpapke.o" => [
+            "crypto/newhope/cpapke.c"
+        ],
+        "crypto/newhope/libcrypto-lib-fips202.o" => [
+            "crypto/newhope/fips202.c"
+        ],
+        "crypto/newhope/libcrypto-lib-newhope.o" => [
+            "crypto/newhope/newhope.c"
+        ],
+        "crypto/newhope/libcrypto-lib-newhope_err.o" => [
+            "crypto/newhope/newhope_err.c"
+        ],
+        "crypto/newhope/libcrypto-lib-newhope_kex.o" => [
+            "crypto/newhope/newhope_kex.c"
+        ],
+        "crypto/newhope/libcrypto-lib-newhope_key.o" => [
+            "crypto/newhope/newhope_key.c"
+        ],
+        "crypto/newhope/libcrypto-lib-ntt.o" => [
+            "crypto/newhope/ntt.c"
+        ],
+        "crypto/newhope/libcrypto-lib-poly.o" => [
+            "crypto/newhope/poly.c"
+        ],
+        "crypto/newhope/libcrypto-lib-precomp.o" => [
+            "crypto/newhope/precomp.c"
+        ],
+        "crypto/newhope/libcrypto-lib-reduce.o" => [
+            "crypto/newhope/reduce.c"
+        ],
+        "crypto/newhope/libcrypto-lib-rng.o" => [
+            "crypto/newhope/rng.c"
+        ],
+        "crypto/newhope/libcrypto-lib-verify.o" => [
+            "crypto/newhope/verify.c"
+        ],
+        "crypto/newhope/libcrypto-shlib-cpapke.o" => [
+            "crypto/newhope/cpapke.c"
+        ],
+        "crypto/newhope/libcrypto-shlib-fips202.o" => [
+            "crypto/newhope/fips202.c"
+        ],
+        "crypto/newhope/libcrypto-shlib-newhope.o" => [
+            "crypto/newhope/newhope.c"
+        ],
+        "crypto/newhope/libcrypto-shlib-newhope_err.o" => [
+            "crypto/newhope/newhope_err.c"
+        ],
+        "crypto/newhope/libcrypto-shlib-newhope_kex.o" => [
+            "crypto/newhope/newhope_kex.c"
+        ],
+        "crypto/newhope/libcrypto-shlib-newhope_key.o" => [
+            "crypto/newhope/newhope_key.c"
+        ],
+        "crypto/newhope/libcrypto-shlib-ntt.o" => [
+            "crypto/newhope/ntt.c"
+        ],
+        "crypto/newhope/libcrypto-shlib-poly.o" => [
+            "crypto/newhope/poly.c"
+        ],
+        "crypto/newhope/libcrypto-shlib-precomp.o" => [
+            "crypto/newhope/precomp.c"
+        ],
+        "crypto/newhope/libcrypto-shlib-reduce.o" => [
+            "crypto/newhope/reduce.c"
+        ],
+        "crypto/newhope/libcrypto-shlib-rng.o" => [
+            "crypto/newhope/rng.c"
+        ],
+        "crypto/newhope/libcrypto-shlib-verify.o" => [
+            "crypto/newhope/verify.c"
+        ],
         "crypto/objects/libcrypto-lib-o_names.o" => [
             "crypto/objects/o_names.c"
         ],
@@ -14325,6 +14492,18 @@ our %unified_info = (
             "crypto/modes/libcrypto-lib-siv128.o",
             "crypto/modes/libcrypto-lib-wrap128.o",
             "crypto/modes/libcrypto-lib-xts128.o",
+            "crypto/newhope/libcrypto-lib-cpapke.o",
+            "crypto/newhope/libcrypto-lib-fips202.o",
+            "crypto/newhope/libcrypto-lib-newhope.o",
+            "crypto/newhope/libcrypto-lib-newhope_err.o",
+            "crypto/newhope/libcrypto-lib-newhope_kex.o",
+            "crypto/newhope/libcrypto-lib-newhope_key.o",
+            "crypto/newhope/libcrypto-lib-ntt.o",
+            "crypto/newhope/libcrypto-lib-poly.o",
+            "crypto/newhope/libcrypto-lib-precomp.o",
+            "crypto/newhope/libcrypto-lib-reduce.o",
+            "crypto/newhope/libcrypto-lib-rng.o",
+            "crypto/newhope/libcrypto-lib-verify.o",
             "crypto/objects/libcrypto-lib-o_names.o",
             "crypto/objects/libcrypto-lib-obj_dat.o",
             "crypto/objects/libcrypto-lib-obj_err.o",
@@ -15802,6 +15981,12 @@ our %unified_info = (
         "test/buildtest_c_fips_names-bin-buildtest_fips_names.o" => [
             "test/buildtest_fips_names.c"
         ],
+        "test/buildtest_c_frodokem" => [
+            "test/buildtest_c_frodokem-bin-buildtest_frodokem.o"
+        ],
+        "test/buildtest_c_frodokem-bin-buildtest_frodokem.o" => [
+            "test/buildtest_frodokem.c"
+        ],
         "test/buildtest_c_hmac" => [
             "test/buildtest_c_hmac-bin-buildtest_hmac.o"
         ],
@@ -15855,6 +16040,12 @@ our %unified_info = (
         ],
         "test/buildtest_c_modes-bin-buildtest_modes.o" => [
             "test/buildtest_modes.c"
+        ],
+        "test/buildtest_c_newhope" => [
+            "test/buildtest_c_newhope-bin-buildtest_newhope.o"
+        ],
+        "test/buildtest_c_newhope-bin-buildtest_newhope.o" => [
+            "test/buildtest_newhope.c"
         ],
         "test/buildtest_c_obj_mac" => [
             "test/buildtest_c_obj_mac-bin-buildtest_obj_mac.o"
@@ -15951,6 +16142,12 @@ our %unified_info = (
         ],
         "test/buildtest_c_ripemd-bin-buildtest_ripemd.o" => [
             "test/buildtest_ripemd.c"
+        ],
+        "test/buildtest_c_round5" => [
+            "test/buildtest_c_round5-bin-buildtest_round5.o"
+        ],
+        "test/buildtest_c_round5-bin-buildtest_round5.o" => [
+            "test/buildtest_round5.c"
         ],
         "test/buildtest_c_rsa" => [
             "test/buildtest_c_rsa-bin-buildtest_rsa.o"
@@ -17015,9 +17212,6 @@ my %disabled_info = (
     "external-tests" => {
         "macro" => "OPENSSL_NO_EXTERNAL_TESTS"
     },
-    "frodokem" => {
-        "macro" => "OPENSSL_NO_FRODOKEM"
-    },
     "fuzz-afl" => {
         "macro" => "OPENSSL_NO_FUZZ_AFL"
     },
@@ -17036,20 +17230,11 @@ my %disabled_info = (
     "msan" => {
         "macro" => "OPENSSL_NO_MSAN"
     },
-    "newhope" => {
-        "macro" => "OPENSSL_NO_NEWHOPE",
-        "skipped" => [
-            "crypto/newhope"
-        ]
-    },
     "rc5" => {
         "macro" => "OPENSSL_NO_RC5",
         "skipped" => [
             "crypto/rc5"
         ]
-    },
-    "round5" => {
-        "macro" => "OPENSSL_NO_ROUND5"
     },
     "sctp" => {
         "macro" => "OPENSSL_NO_SCTP"

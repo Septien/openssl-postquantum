@@ -105,9 +105,6 @@ int err_load_crypto_strings_int(void)
         ERR_load_ESS_strings() == 0 ||
         ERR_load_ASYNC_strings() == 0 ||
 #endif
-        ERR_load_OSSL_STORE_strings() == 0 ||
-        ERR_load_PROP_strings() == 0 ||
-        ERR_load_PROV_strings() == 0 ||
 #ifndef OPENSSL_NO_NEWHOPE
         ERR_load_NEWHOPE_strings() == 0 ||
 #endif
@@ -115,8 +112,11 @@ int err_load_crypto_strings_int(void)
         ERR_load_ROUND5_strings() == 0 ||
 #endif
 #ifndef OPENSSL_NO_FRODOKEM
-        ERR_load_FRODOKEM_strings() == 0
+        ERR_load_FRODOKEM_strings() == 0 ||
 #endif
+        ERR_load_OSSL_STORE_strings() == 0 ||
+        ERR_load_PROP_strings() == 0 ||
+        ERR_load_PROV_strings() == 0
     )
         return 0;
 

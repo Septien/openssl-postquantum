@@ -223,6 +223,9 @@ struct err_state_st {
 # define ERR_R_UI_LIB    ERR_LIB_UI/* 40 */
 # define ERR_R_ECDSA_LIB ERR_LIB_ECDSA/* 42 */
 # define ERR_R_OSSL_STORE_LIB ERR_LIB_OSSL_STORE/* 44 */
+# define ERR_R_NEWHOPE_LIB ERR_LIB_NEWHOPE
+# define ERR_R_ROUND5_LIB ERR_LIB_ROUND5
+# define ERR_R_FRODOKEM_LIB ERR_LIB_FRODOKEM
 
 # define ERR_R_NESTED_ASN1_ERROR                 58
 # define ERR_R_MISSING_ASN1_EOS                  63

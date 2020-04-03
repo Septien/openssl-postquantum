@@ -4919,3 +4919,5 @@ ROUND5_PAIR_get_publickey               ?	3_0_0	EXIST::FUNCTION:
 ROUND5_PAIR_has_privatekey              ?	3_0_0	EXIST::FUNCTION:
 ROUND5_compute_key_alice                ?	3_0_0	EXIST::FUNCTION:
 ROUND5_compute_key_bob                  ?	3_0_0	EXIST::FUNCTION:
+ERR_load_FRODOKEM_strings               ?	3_0_0	EXIST::FUNCTION:FRODOKEM
+ERR_load_ROUND5_strings                 ?	3_0_0	EXIST::FUNCTION:ROUND5

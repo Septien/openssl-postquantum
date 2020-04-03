@@ -1702,6 +1702,12 @@ char *SSL_CIPHER_description(const SSL_CIPHER *cipher, char *buf, int len)
     case SSL_kNEWHOPE:
         kx = "NEWHOPE";
         break;
+    case SSL_kROUND5:
+        kx = "ROUND5";
+        break;
+    case SSL_kFRODOKEM:
+        kx = "FRODOKEM";
+        break;
     case SSL_kANY:
         kx = "any";
         break;

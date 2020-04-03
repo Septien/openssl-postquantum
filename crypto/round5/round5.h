@@ -1,4 +1,4 @@
-/*c crypto/nround5/round5.h */
+/* crypto/round5/round5.h */
 #ifndef HEADER_ROUND5_H
 #define HEADER_ROUND5_H
 

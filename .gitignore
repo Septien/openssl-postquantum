@@ -8,3 +8,7 @@
 *.dylib
 fuzz/
 *.txt
+*.so
+*.ld
+*.pc
+*.3

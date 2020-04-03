@@ -11,7 +11,7 @@
 #include <openssl/bn.h>
 #include <openssl/err.h>
 #include <openssl/frodokemerr.h>
-#include "rfrodokem_locl.h"
+#include "frodokem_locl.h"
 
 #include <stdio.h>
 

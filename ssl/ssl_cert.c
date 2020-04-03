@@ -100,10 +100,10 @@ CERT *ssl_cert_dup(CERT *cert)
 #endif
 
 #ifndef OPENSSL_NO_NEWHOPE
-    if (cert->newhope_temp)
+    if (cert->newhope_tmp)
     {
-        ret->newhope_temp = NEWHOPE_PAIR_dup(cert->newhope_temp);
-        if (ret->newhope_temp == NULL)
+        ret->newhope_tmp = NEWHOPE_PAIR_dup(cert->newhope_tmp);
+        if (ret->newhope_tmp == NULL)
         {
             SSLerr(SSL_F_SSL_CERT_DUP, ERR_R_NEWHOPE_LIB);
             goto err;
@@ -267,9 +267,9 @@ void ssl_cert_free(CERT *c)
 #endif
 
 #ifndef OPENSSL_NO_NEWHOPE
-    if (c->newhope_temp != NULL)
+    if (c->newhope_tmp != NULL)
     {
-        NEWHOPE_PAIR_free(c->newhope_temp);
+        NEWHOPE_PAIR_free(c->newhope_tmp);
     }
 #endif
 

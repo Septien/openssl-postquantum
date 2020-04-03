@@ -10,8 +10,8 @@
  * https://www.openssl.org/source/license.html
  */
 
-#define PLATFORM "platform: darwin64-x86_64-cc"
-#define DATE "built on: Wed Feb 19 22:46:28 2020 UTC"
+#define PLATFORM "platform: linux-x86_64"
+#define DATE "built on: Wed Apr  1 23:43:38 2020 UTC"
 
 /*
  * Generate compiler_flags as an array of individual characters. This is a
@@ -19,10 +19,12 @@
  * literal
  */
 static const char compiler_flags[] = {
-    'c','o','m','p','i','l','e','r',':',' ','c','c',' ','-','f','P',
-    'I','C',' ','-','a','r','c','h',' ','x','8','6','_','6','4',' ',
-    '-','O','3',' ','-','W','a','l','l',' ','-','D','L','_','E','N',
-    'D','I','A','N',' ','-','D','O','P','E','N','S','S','L','_','P',
-    'I','C',' ','-','D','_','R','E','E','N','T','R','A','N','T',' ',
-    '-','D','N','D','E','B','U','G','\0'
+    'c','o','m','p','i','l','e','r',':',' ','g','c','c',' ','-','f',
+    'P','I','C',' ','-','p','t','h','r','e','a','d',' ','-','m','6',
+    '4',' ','-','W','a',',','-','-','n','o','e','x','e','c','s','t',
+    'a','c','k',' ','-','W','a','l','l',' ','-','O','3',' ','-','D',
+    'O','P','E','N','S','S','L','_','U','S','E','_','N','O','D','E',
+    'L','E','T','E',' ','-','D','L','_','E','N','D','I','A','N',' ',
+    '-','D','O','P','E','N','S','S','L','_','P','I','C',' ','-','D',
+    'N','D','E','B','U','G','\0'
 };
