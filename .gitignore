@@ -19,3 +19,4 @@ crypto/buildinf.h
 include/crypto/bn_conf.h
 include/crypto/dso_conf.h
 include/openssl/opensslconf.h
+test/

@@ -18,7 +18,7 @@
 #ifdef OPENSSL_NO_NEWHOPE
 int main(int argc, char **argv)
 {
-    print("No NEWHOPE support\n");
+    printf("No NEWHOPE support\n");
     return 0;
 }
 #else
