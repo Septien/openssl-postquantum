@@ -4,8 +4,9 @@
 #include <openssl/err.h>
 #include <openssl/sha.h>
 #include <openssl/frodokemerr.h>
+#include <openssl/frodokem.h>
 #include "frodokem_locl.h"
-#include "frodokem_kex.c"
+#include "api.h"
 
 FRODOKEM_CTX *FRODOKEM_CTX_new(const int nid)
 {
@@ -296,7 +297,7 @@ size_t FRODOKEM_compute_key_alice(unsigned char *out, size_t outlen, const unsig
         return (ret);
     }
 
-    unsigned char *ssa = (unsigned char *)OPENSSL_malloc(FRODOKEM_CPAKEM_SECRETKEYBYTES * sizeof(unsigned char));
+    unsigned char *ssa = (unsigned char *)OPENSSL_malloc(CRYPTO_SECRETKEYBYTES * sizeof(unsigned char));
     if (ssa == NULL)
     {
         FRODOKEMerr(FRODOKEM_F_FRODOKEM_COMPUTE_KEY_ALICE, ERR_R_MALLOC_FAILURE);
@@ -352,7 +353,7 @@ size_t FRODOKEM_compute_key_bob(unsigned char *out, size_t outlen, const FRODOKE
 
     if (KDF != 0)
     {
-        if (KDF((unsigned char *) ssb, FRODOKEM_CPAKEM_CIPHERTEXTBYTES * sizeof(unsigned char), out, &outlen) == NULL)
+        if (KDF((unsigned char *) ssb, CRYPTO_CIPHERTEXTBYTES * sizeof(unsigned char), out, &outlen) == NULL)
         {
             FRODOKEMerr(FRODOKEM_F_FRODOKEM_COMPUTE_KEY_BOB, FRODOKEM_R_KDF_FAILED);
             goto err;

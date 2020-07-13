@@ -13,6 +13,10 @@
 #define OS_WIN       1
 #define OS_NIX       2
 
+#define NIX
+#define _AMD64_
+#define _FAST_
+
 #if defined(WINDOWS)            // Microsoft Windows
     #define OS_TARGET OS_WIN
 #elif defined(NIX)              // Unix-like operative systems
