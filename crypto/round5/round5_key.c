@@ -296,7 +296,7 @@ size_t ROUND5_compute_key_alice(unsigned char *out, size_t outlen, const unsigne
         return (ret);
     }
 
-    unsigned char *ssa = (unsigned char *)OPENSSL_malloc(ROUND5_CPAKEM_SECRETKEYBYTES * sizeof(unsigned char));
+    unsigned char *ssa = (unsigned char *)OPENSSL_malloc(CRYPTO_SECRETKEYBYTES * sizeof(unsigned char));
     if (ssa == NULL)
     {
         ROUND5err(ROUND5_F_ROUND5_COMPUTE_KEY_ALICE, ERR_R_MALLOC_FAILURE);
@@ -352,7 +352,7 @@ size_t ROUND5_compute_key_bob(unsigned char *out, size_t outlen, const ROUND5_PU
 
     if (KDF != 0)
     {
-        if (KDF((unsigned char *) ssb, ROUND5_CPAKEM_CIPHERTEXTBYTES * sizeof(unsigned char), out, &outlen) == NULL)
+        if (KDF((unsigned char *) ssb, CRYPTO_SECRETKEYBYTES * sizeof(unsigned char), out, &outlen) == NULL)
         {
             ROUND5err(ROUND5_F_ROUND5_COMPUTE_KEY_BOB, ROUND5_R_KDF_FAILED);
             goto err;

@@ -9,7 +9,7 @@
  * Uses /dev/urandom fro generating the random bytes.
  */
 
-#include "rng.h"
+#include "../rng.h"
 
 #include <stdlib.h>
 #include <fcntl.h>

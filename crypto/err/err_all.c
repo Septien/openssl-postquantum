@@ -109,9 +109,11 @@ int err_load_crypto_strings_int(void)
         ERR_load_NEWHOPE_strings() == 0 ||
 #endif
 #ifndef OPENSSL_NO_ROUND5
+#warning "Hello"
         ERR_load_ROUND5_strings() == 0 ||
 #endif
 #ifndef OPENSSL_NO_FRODOKEM
+#warning "Hello"
         ERR_load_FRODOKEM_strings() == 0 ||
 #endif
         ERR_load_OSSL_STORE_strings() == 0 ||
