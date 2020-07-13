@@ -128,8 +128,10 @@
 #define NEWHOPE_NUM 10
 #define MAX_NEWHOPE_SIZE 512
 
+#ifndef OPENSSL_NO_NEWHOPE
 static const char rnd_seed[] = "string to make the random number generator think it has entropy";
 static int rnd_fake = 0;
+#endif
 
 typedef struct openssl_speed_sec_st {
     int sym;
@@ -3697,7 +3699,7 @@ int speed_main(int argc, char **argv)
 
 #endif                          /* OPENSSL_NO_EC */
 
-#ifndef OPENSSL_NO_NEWHOP
+#ifndef OPENSSL_NO_NEWHOPE
     nh_t *args = NULL;
     if (RAND_status() != 1)
     {
