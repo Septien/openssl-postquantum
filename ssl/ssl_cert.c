@@ -125,7 +125,11 @@ CERT *ssl_cert_dup(CERT *cert)
     if (cert->frodokem_temp)
     {
         ret->frodokem_temp = FRODOKEM_PAIR_dup(cert->frodokem_temp);
-        goto err;
+        if (ret->frodokem_temp == NULL)
+        {
+            SSLerr(SSL_F_SSL_CERT_DUP, ERR_R_FRODOKEM_LIB);
+            goto err;
+        }
     }
 #endif
 
